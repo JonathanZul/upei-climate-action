@@ -17,7 +17,20 @@ const mockPosts = [
     imageUrl: '/images/placeholder.svg',
     postUrl: '#',
   },
-  // Add 1-2 more mock posts
+  {
+    tag: 'Policy', author: 'Alex Green', date: 'Sep 7, 2024',
+    title: 'Policy changes and their impact on climate.',
+    excerpt: 'Explore how recent policy changes are affecting climate action and what it means for the future.',
+    imageUrl: '/images/placeholder.svg',
+    postUrl: '#',
+  },
+  {
+    tag: 'Science', author: 'Maria Lopez', date: 'Sep 5, 2024',
+    title: 'The science behind global warming explained.',
+    excerpt: 'A deep dive into the scientific principles driving global warming and what we can do to mitigate its effects.',
+    imageUrl: '/images/placeholder.svg',
+    postUrl: '#',
+  },
 ];
 
 export default function BlogPage() {
