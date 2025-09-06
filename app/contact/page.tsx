@@ -57,7 +57,7 @@ export default function ContactPage() {
                 </a>
               </div>
               <div className="space-y-4">
-                <a href="#" className="flex w-full items-center justify-center gap-3 rounded-full bg-accent-bg px-4 py-3 font-poppins text-sm font-semibold text-white-text transition-transform hover:scale-105">
+                <a href="#" className="flex w-full items-center justify-center gap-3 rounded-full bg-accent-bg px-4 py-3 font-poppins text-sm font-semibold text-tertiary transition-transform hover:scale-105">
                   <Instagram />
                   <span>Follow Us on Instagram</span>
                 </a>
