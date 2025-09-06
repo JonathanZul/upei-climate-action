@@ -13,7 +13,7 @@ export default function WhatsNew() {
           {/* Left Column: Featured Post */}
           <div className="flex flex-col gap-3">
             <Image
-              src="images/placeholder.svg"
+              src="/images/placeholder.svg"
               alt="Featured announcement placeholder"
               width={500}
               height={300}
