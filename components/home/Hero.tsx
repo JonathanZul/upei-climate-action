@@ -9,11 +9,11 @@ export default function Hero() {
           className="h-full w-full bg-cover bg-center"
           style={{ backgroundImage: "url('/images/hero-background.jpg')" }}
         />
-        <div className="absolute inset-0 bg-white-text/70" />
+        <div className="absolute inset-0 bg-white-text/60" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center px-4 text-center">
+      <div className="relative z-10 flex flex-col items-center text-center bg-white-text/70 px-6 py-8 rounded-2xl shadow-2xl backdrop-blur-sm sm:px-12 md:px-16 lg:max-w-4xl">
         <h1 className="font-montserrat text-4xl font-light leading-tight text-tertiary sm:text-5xl md:text-6xl">
           Leading Change, <br />
           <span className="font-bold">Together.</span>
