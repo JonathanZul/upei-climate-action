@@ -1,8 +1,11 @@
+// components/layout/Header.tsx
 "use client";
 
+import { useState } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "../ui/Logo";
+import { Menu, X } from 'lucide-react';
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -13,24 +16,26 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-4 z-50 mx-auto max-w-6xl">
-      <nav className="mx-4 rounded-lg bg-white/70 px-4 py-2.5 shadow-md backdrop-blur-sm sm:px-6">
-        <div className="flex flex-wrap items-center justify-between">
+    // Outer container for positioning. Sticks to the top with a margin.
+    <header className="sticky top-4 z-50 w-full">
+      {/* Inner container for styling. Responsive width and centering. */}
+      <nav className="mx-4 rounded-lg bg-white/70 shadow-md backdrop-blur-sm lg:mx-auto lg:max-w-6xl">
+        <div className="flex items-center justify-between px-4 py-2.5 sm:px-6">
           <Logo />
-          <div className="flex items-center space-x-4">
-            <ul className="hidden items-center space-x-8 font-poppins text-sm font-medium lg:flex">
+          {/* Desktop Navigation & CTA */}
+          <div className="hidden items-center space-x-4 lg:flex">
+            <ul className="flex items-center space-x-8 font-poppins text-sm font-medium">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className={`block py-2 pr-4 pl-3 transition-colors duration-200 ${
-                        isActive
-                          ? "text-primary"
-                          : "text-tertiary hover:text-primary"
+                      className={`block transition-colors duration-200 ${
+                        isActive ? "text-primary" : "text-tertiary hover:text-primary"
                       }`}
                     >
                       {link.name}
@@ -42,6 +47,52 @@ export default function Header() {
             <Link
               href="/contact"
               className="rounded-full bg-primary px-4 py-2 font-poppins text-sm text-white-text transition-transform duration-200 hover:scale-105"
+            >
+              Contact Us
+            </Link>
+          </div>
+
+          {/* Burger Menu Button (visible on small screens) */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-controls="mobile-menu"
+              aria-expanded={isMenuOpen}
+              className="inline-flex items-center justify-center rounded-md p-2 text-tertiary hover:bg-gray-200"
+            >
+              <span className="sr-only">Open main menu</span>
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu Panel */}
+        <div
+          id="mobile-menu"
+          className={`${isMenuOpen ? 'block' : 'hidden'} border-t border-gray-200/80 lg:hidden`}
+        >
+          <div className="space-y-1 px-2 pt-2 pb-3">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`block rounded-md px-3 py-2 text-base font-medium ${
+                    isActive ? "bg-primary text-white-text" : "text-tertiary hover:bg-gray-200"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+          </div>
+          <div className="border-t border-gray-200/80 px-2 pt-3 pb-4">
+            <Link
+              href="/contact"
+              onClick={() => setIsMenuOpen(false)}
+              className="block w-full rounded-md bg-primary px-4 py-2 text-center font-poppins text-sm text-white-text"
             >
               Contact Us
             </Link>
