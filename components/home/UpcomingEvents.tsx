@@ -42,7 +42,7 @@ export default function UpcomingEvents() {
         </h2>
         <div className="mt-12 flex flex-col gap-12">
           {events.map((event) => (
-            <EventCard key={event.title} {...event} />
+            <EventCard key={`${event.month}-${event.day}-${event.title}`} {...event} />
           ))}
         </div>
       </div>
