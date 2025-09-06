@@ -1,4 +1,3 @@
-// components/layout/Header.tsx
 "use client";
 
 import { useState } from 'react';
@@ -19,13 +18,15 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    // Outer container for positioning. Sticks to the top with a margin.
     <header className="sticky top-4 z-50 w-full">
-      {/* Inner container for styling. Responsive width and centering. */}
-      <nav className="mx-4 rounded-lg bg-white/70 shadow-md backdrop-blur-sm lg:mx-auto lg:max-w-6xl">
+      <nav
+        className={`relative mx-4 ${
+          isMenuOpen ? 'rounded-t-lg' : 'rounded-lg'
+        } bg-white/70 shadow-md backdrop-blur-sm lg:mx-auto lg:max-w-6xl`}
+      >
         <div className="flex items-center justify-between px-4 py-2.5 sm:px-6">
           <Logo />
-          {/* Desktop Navigation & CTA */}
+          {/* Desktop Navigation */}
           <div className="hidden items-center space-x-4 lg:flex">
             <ul className="flex items-center space-x-8 font-poppins text-sm font-medium">
               {navLinks.map((link) => {
@@ -51,8 +52,7 @@ export default function Header() {
               Contact Us
             </Link>
           </div>
-
-          {/* Burger Menu Button (visible on small screens) */}
+          {/* Burger Menu Button */}
           <div className="lg:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -69,7 +69,9 @@ export default function Header() {
         {/* Mobile Menu Panel */}
         <div
           id="mobile-menu"
-          className={`${isMenuOpen ? 'block' : 'hidden'} border-t border-gray-200/80 lg:hidden`}
+          className={`${
+            isMenuOpen ? 'block' : 'hidden'
+          } absolute top-full left-0 z-20 w-full rounded-b-lg bg-white/98 backdrop-blur-sm shadow-lg lg:hidden`}
         >
           <div className="space-y-1 px-2 pt-2 pb-3">
             {navLinks.map((link) => {
