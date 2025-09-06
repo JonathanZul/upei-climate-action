@@ -8,6 +8,7 @@ type EventCardProps = {
   location: string;
   time: string;
   imageUrl: string;
+  white_text?: boolean;
 };
 
 export default function EventCard({
@@ -18,15 +19,16 @@ export default function EventCard({
   location,
   time,
   imageUrl,
+  white_text = false,
 }: EventCardProps) {
   return (
     <div className="flex flex-col gap-6 border-t-4 border-primary pt-8 sm:flex-row">
       {/* Date */}
       <div className="flex w-full flex-col items-center justify-center sm:w-40">
-        <p className="font-montserrat text-3xl font-medium text-tertiary">
+        <p className={`font-montserrat text-3xl font-medium ${white_text ? 'text-white-text' : 'text-tertiary'}`}>
           {month}
         </p>
-        <p className="font-montserrat text-6xl font-light text-tertiary">
+        <p className={`font-montserrat text-6xl font-light ${white_text ? 'text-white-text' : 'text-tertiary'}`}>
           {day}
         </p>
       </div>
@@ -42,11 +44,11 @@ export default function EventCard({
       </div>
       {/* Details */}
       <div className="flex flex-col gap-4">
-        <h3 className="font-poppins text-xl font-bold text-tertiary">{title}</h3>
-        <p className="font-nunito text-base text-tertiary">{description}</p>
+        <h3 className={`font-poppins text-xl font-bold ${white_text ? 'text-white-text' : 'text-tertiary'}`}>{title}</h3>
+        <p className={`font-nunito text-base ${white_text ? 'text-white-text' : 'text-tertiary'}`}>{description}</p>
         <div>
-          <p className="font-poppins font-medium text-tertiary">{location}</p>
-          <p className="font-poppins text-sm font-medium text-tertiary">{time}</p>
+          <p className={`font-poppins font-medium ${white_text ? 'text-white-text' : 'text-tertiary'}`}>{location}</p>
+          <p className={`font-poppins text-sm font-medium ${white_text ? 'text-white-text' : 'text-tertiary'}`}>{time}</p>
         </div>
       </div>
     </div>
