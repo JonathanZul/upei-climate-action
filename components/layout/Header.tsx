@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "../ui/Logo";
-import { Menu, X } from 'lucide-react';
+import { HiBars3, HiXMark } from 'react-icons/hi2'; // Using Heroicons 2
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -61,7 +61,7 @@ export default function Header() {
               className="inline-flex items-center justify-center rounded-md p-2 text-tertiary hover:bg-gray-200"
             >
               <span className="sr-only">Open main menu</span>
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? <HiXMark className="h-6 w-6" /> : <HiBars3 className="h-6 w-6" />}
             </button>
           </div>
         </div>

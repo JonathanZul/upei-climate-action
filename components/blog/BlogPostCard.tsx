@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { HiArrowRight } from 'react-icons/hi2';
 
 type BlogPostCardProps = {
   tag: string;
@@ -53,7 +53,7 @@ export default function BlogPostCard({
           href={postUrl}
           className="mt-auto inline-flex items-center font-poppins font-semibold text-primary hover:underline"
         >
-          Continue Reading <ArrowRight className="ml-2 h-4 w-4" />
+          Continue Reading <HiArrowRight className="ml-2 h-4 w-4" />
         </Link>
       </div>
     </article>
