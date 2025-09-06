@@ -1,3 +1,26 @@
 /* app/globals.css */
-@import "tailwindcss/preflight";
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Define all your custom colors as CSS variables */
+  --color-primary: #588157;
+  --color-secondary: #3a5a40;
+  --color-tertiary: #344e41;
+  --color-base-bg: #dad7cd;
+  --color-accent-bg: #a3b18a;
+  --color-white-text: #fafafa;
+
+  /* Define your application's core background/foreground */
+  --color-background: var(--color-base-bg);
+  --color-foreground: var(--color-tertiary);
+
+  /* Map your fonts to the CSS variables defined in layout.tsx */
+  --font-sans: var(--font-nunito);
+  --font-montserrat: var(--font-montserrat);
+  --font-poppins: var(--font-poppins);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
