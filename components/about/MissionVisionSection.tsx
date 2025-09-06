@@ -11,9 +11,9 @@ export default function MissionVisionSection() {
                   Our Mission
                 </h3>
                 <p className="mt-4 font-nunito text-base text-tertiary">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                  dignissim mattis tristique. Maecenas ullamcorper, varius pulvinar
-                  aliquam consequat ante.
+                To provide the UPEI community with opportunities for direct 
+                environmental action and education. We organize events that 
+                empower students to create a more sustainable campus.
                 </p>
               </div>
               <div className="h-48 w-full flex-shrink-0 rounded-md bg-accent-bg lg:h-full lg:w-48" />
@@ -26,9 +26,9 @@ export default function MissionVisionSection() {
                   Our Vision
                 </h3>
                 <p className="mt-4 font-nunito text-base text-tertiary">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                  dignissim mattis tristique. Maecenas ullamcorper, varius pulvinar
-                  aliquam consequat ante.
+                A UPEI campus that is a leader in sustainability, where 
+                environmental awareness is part of our shared culture and 
+                students are equipped to lead the change.
                 </p>
               </div>
               <div className="h-48 w-full flex-shrink-0 rounded-md bg-accent-bg lg:h-full lg:w-48" />
