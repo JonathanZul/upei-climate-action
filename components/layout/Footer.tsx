@@ -1,7 +1,7 @@
 // components/layout/Footer.tsx
 import Link from "next/link";
 import Logo from "../ui/Logo";
-import { Instagram, Disc } from "lucide-react"; // Using a placeholder for Discord
+import { FaInstagram, FaDiscord } from 'react-icons/fa'; // Using Font Awesome for brands
 
 export default function Footer() {
   return (
@@ -25,10 +25,10 @@ export default function Footer() {
               </p>
               <div className="flex space-x-4">
                 <a href="#" className="text-tertiary hover:text-primary" aria-label="Instagram">
-                  <Instagram size={24} />
+                  <FaInstagram size={24} />
                 </a>
                 <a href="#" className="text-tertiary hover:text-primary" aria-label="Discord">
-                  <Disc size={24} /> {/* Placeholder for Discord Icon */}
+                  <FaDiscord size={24} /> {/* Placeholder for Discord Icon */}
                 </a>
               </div>
             </div>

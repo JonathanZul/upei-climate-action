@@ -1,6 +1,6 @@
 import PageHero from '@/components/ui/PageHero';
 import BlogPostCard from '@/components/blog/BlogPostCard';
-import { Search, ChevronDown } from 'lucide-react';
+import { FaChevronDown, FaSearch } from 'react-icons/fa';
 
 const mockPosts = [
   {
@@ -63,7 +63,7 @@ export default function BlogPage() {
                   placeholder="Search Blogs"
                   className="w-full rounded-md border-gray-300 py-2 pl-10 pr-4 focus:border-primary focus:bg-primary focus:text-white-text focus:outline-none"
                 />
-                <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                <FaSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
               </div>
 
               {/* Tag Filter */}
@@ -75,7 +75,7 @@ export default function BlogPage() {
                   aria-controls="tag-dropdown-menu"
                 >
                   <span>Search By Tag</span>
-                  <ChevronDown className="h-5 w-5 text-gray-400" />
+                  <FaChevronDown className="h-5 w-5 text-gray-400" />
                 </button>
               </div>
             </div>

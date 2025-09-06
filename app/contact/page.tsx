@@ -1,8 +1,5 @@
 // app/contact/page.tsx
-import { Instagram } from 'lucide-react';
-// Note: We'll use a placeholder for the Discord icon.
-// In a real project, you might use a library like `react-icons` for brand icons.
-import { MessageCircle } from 'lucide-react';
+import { FaInstagram, FaDiscord } from 'react-icons/fa'; 
 
 export default function ContactPage() {
   return (
@@ -58,11 +55,11 @@ export default function ContactPage() {
               </div>
               <div className="space-y-4">
                 <a href="#" className="flex w-full items-center justify-center gap-3 rounded-full bg-accent-bg px-4 py-3 font-poppins text-sm font-semibold text-tertiary transition-transform hover:scale-105">
-                  <Instagram />
+                  <FaInstagram />
                   <span>Follow Us on Instagram</span>
                 </a>
                 <a href="#" className="flex w-full items-center justify-center gap-3 rounded-full bg-accent-bg px-4 py-3 font-poppins text-sm font-semibold text-tertiary transition-transform hover:scale-105">
-                  <MessageCircle /> {/* Placeholder for Discord */}
+                  <FaDiscord />
                   <span>Join Our Discord Server</span>
                 </a>
               </div>
