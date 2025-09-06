@@ -1,8 +1,9 @@
-// app/page.tsx
+import Hero from '@/components/home/Hero';
+
 export default function Home() {
   return (
-    <main>
-      <h1>UPEI Climate Action Association</h1>
-    </main>
+    <>
+      <Hero />      
+    </>
   );
 }
