@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Logo from "../ui/Logo";
+import Image from 'next/image';
 import { HiBars3, HiXMark } from 'react-icons/hi2'; // Using Heroicons 2
 
 const navLinks = [
@@ -25,7 +25,15 @@ export default function Header() {
         } bg-white/70 shadow-md backdrop-blur-sm lg:mx-auto lg:max-w-6xl`}
       >
         <div className="flex items-center justify-between px-4 py-2.5 sm:px-6">
-          <Logo />
+          <Link href="/" className="flex items-center space-x-2">
+            <Image
+              src="/images/h-logo.svg"
+              alt="UPEI Climate Action Society Logo"
+              width={24}
+              height={24}
+              className="h-10 w-24"
+            />
+          </Link>
           {/* Desktop Navigation */}
           <div className="hidden items-center space-x-4 lg:flex">
             <ul className="flex items-center space-x-8 font-poppins text-sm font-medium">

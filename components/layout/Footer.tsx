@@ -1,6 +1,6 @@
 // components/layout/Footer.tsx
 import Link from "next/link";
-import Logo from "../ui/Logo";
+import Image from "next/image";
 import { FaInstagram, FaDiscord } from 'react-icons/fa'; // Using Font Awesome for brands
 
 export default function Footer() {
@@ -10,7 +10,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
           {/* Column 1: Logo */}
           <div className="col-span-1">
-            <Logo />
+            <Link href="/" className="flex items-center space-x-2">
+              <Image
+                src="/images/h-logo.svg"
+                alt="UPEI Climate Action Society Logo"
+                width={24}
+                height={24}
+                className="h-20 w-48"
+              />
+            </Link>
           </div>
 
           {/* Column 2: Contact */}
@@ -23,12 +31,16 @@ export default function Footer() {
                   caas@upeisu.ca
                 </a>
               </p>
-              <div className="flex space-x-4">
-                <a href="#" className="text-tertiary hover:text-primary" aria-label="Instagram">
-                  <FaInstagram size={24} />
-                </a>
-                <a href="#" className="text-tertiary hover:text-primary" aria-label="Discord">
-                  <FaDiscord size={24} /> {/* Placeholder for Discord Icon */}
+              <div className="flex flex-col space-y-4">
+                <div className="flex flex-row items-center space-x-3">
+                  <a href="#" className="text-tertiary group flex space-x-3 items-center" aria-label="Instagram">
+                    <FaInstagram size={24} className="group-hover:text-primary" />
+                    <span className="bg-tertiary group-hover:bg-primary text-white-text text-xs w-16 text-center py-1 rounded-2xl">Follow</span>
+                  </a>
+                </div>
+                <a href="#" className="text-tertiary group flex space-x-3 items-center" aria-label="Discord">
+                  <FaDiscord size={24} className="group-hover:text-primary" /> {/* Placeholder for Discord Icon */}
+                  <span className="bg-tertiary group-hover:bg-primary text-white-text text-xs w-16 text-center py-1 rounded-2xl">Join</span>
                 </a>
               </div>
             </div>
