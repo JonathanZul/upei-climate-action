@@ -24,10 +24,10 @@ export default function Footer() {
                 </a>
               </p>
               <div className="flex space-x-4">
-                <a href="#" className="text-tertiary hover:text-primary">
+                <a href="#" className="text-tertiary hover:text-primary" aria-label="Instagram">
                   <Instagram size={24} />
                 </a>
-                <a href="#" className="text-tertiary hover:text-primary">
+                <a href="#" className="text-tertiary hover:text-primary" aria-label="Discord">
                   <Disc size={24} /> {/* Placeholder for Discord Icon */}
                 </a>
               </div>
