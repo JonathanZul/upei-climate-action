@@ -68,7 +68,12 @@ export default function BlogPage() {
 
               {/* Tag Filter */}
               <div className="relative">
-                <button className="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-left flex justify-between items-center">
+                <button
+                  className="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-left flex justify-between items-center"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-controls="tag-dropdown-menu"
+                >
                   <span>Search By Tag</span>
                   <ChevronDown className="h-5 w-5 text-gray-400" />
                 </button>
