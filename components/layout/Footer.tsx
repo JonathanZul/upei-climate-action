@@ -56,7 +56,7 @@ export default function Footer() {
                 <input
                   type="email"
                   placeholder="janedoe@upei.ca"
-                  className="w-full rounded-md border-tertiary border px-3 py-1.5 text-sm placeholder:text-gray-400"
+                  className="w-full rounded-md border-tertiary border px-3 py-1.5 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
                 />
                 <button
                   type="submit"
