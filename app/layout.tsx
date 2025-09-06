@@ -1,12 +1,12 @@
-// app/layout.tsx
+// app/layout.tsx - (No changes needed)
 import type { Metadata } from "next";
 import { Montserrat, Poppins, Nunito } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/layout/Header";
 
-// Font configuration
 const montserrat = Montserrat({
   subsets: ["latin"],
-  variable: "--font-montserrat", // CSS Variable name
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -36,9 +36,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.variable} ${poppins.variable} ${nunito.variable} bg-base-bg text-tertiary font-nunito`}
+        className={`${montserrat.variable} ${poppins.variable} ${nunito.variable} font-nunito`}
       >
-        {children}
+        <Header />
+        <main>{children}</main>
       </body>
     </html>
   );
