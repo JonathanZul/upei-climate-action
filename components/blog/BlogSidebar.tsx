@@ -46,7 +46,7 @@ export default function BlogSidebar({ tags }: BlogSidebarProps) {
         params.delete('search');
       }
       // We use router.replace to avoid cluttering the browser history
-      router.replace(`/blog?${params.toString()}`);
+      router.replace(`/blog?${params.toString()}`, {scroll: false});
     }, 300); // Wait for 300ms after user stops typing
 
     // Cleanup function to cancel the timeout if the effect is re-run
