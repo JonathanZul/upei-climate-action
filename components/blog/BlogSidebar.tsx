@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FaSearch, FaChevronDown } from 'react-icons/fa';
 import Link from 'next/link';
@@ -36,24 +36,39 @@ export default function BlogSidebar({ tags }: BlogSidebarProps) {
 
   const activeTagSlug = searchParams.get('tag');
 
+  // Implement the Debouncing Logic
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      const params = new URLSearchParams(searchParams);
+      if (searchTerm) {
+        params.set('search', searchTerm);
+      } else {
+        params.delete('search');
+      }
+      // We use router.replace to avoid cluttering the browser history
+      router.replace(`/blog?${params.toString()}`);
+    }, 300); // Wait for 300ms after user stops typing
+
+    // Cleanup function to cancel the timeout if the effect is re-run
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, router, searchParams]); // Rerun the effect when searchTerm changes
+
   return (
     <aside className="lg:col-span-1">
       <div className="sticky top-24 space-y-8">
         {/* Search Bar */}
-        <form onSubmit={handleSearch}>
-          <div className="relative">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search Blogs"
-              className="w-full rounded-md border-gray-300 py-2 pl-10 pr-4 focus:border-primary focus:bg-primary focus:text-white-text focus:outline-none"
-            />
-            <button type="submit" className="absolute left-3 top-1/2 -translate-y-1/2">
-              <FaSearch className="h-4 w-4 text-gray-400" />
-            </button>
-          </div>
-        </form>
+        <div className="relative">
+        <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search Blogs"
+            className="w-full rounded-md border-gray-300 py-2 pl-10 pr-4 focus:border-primary focus:bg-primary focus:text-white-text focus:outline-none"
+        />
+        <button type="submit" className="absolute left-3 top-1/2 -translate-y-1/2">
+            <FaSearch className="h-4 w-4 text-gray-400" />
+        </button>
+        </div>
 
         {/* Tag Filter */}
         <div className="relative">
