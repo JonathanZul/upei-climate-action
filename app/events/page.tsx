@@ -1,49 +1,60 @@
 import PageHero from '@/components/ui/PageHero';
 import EventListing from '@/components/events/EventListing';
+import {client } from '@/lib/sanity';
+import { groq } from 'next-sanity';
 
-const upcomingEvents = [
-    {
-      month: 'Sep', day: '24', title: 'Annual General Meeting',
-      description: 'Join us for our AGM to discuss the past year and elect our new executive team. Refreshments will be provided.',
-      location: 'McDougall Hall 242', time: '14:30',
-      imageUrl: '/images/placeholder.svg',
-    },
-    {
-        month: 'Sep', day: '24', title: 'Annual General Meeting 2',
-        description: 'Join us for our AGM to discuss the past year and elect our new executive team. Refreshments will be provided.',
-        location: 'McDougall Hall 242', time: '14:30',
-        imageUrl: '/images/placeholder.svg',
-    },
-    {
-    month: 'Sep', day: '24', title: 'Annual General 3',
-    description: 'Join us for our AGM to discuss the past year and elect our new executive team. Refreshments will be provided.',
-    location: 'McDougall Hall 242', time: '14:30',
-    imageUrl: '/images/placeholder.svg',
-    },
-  ];
-  
-  const pastEvents = [
-    {
-      month: 'Apr', day: '22', title: 'Earth Day Campus Cleanup',
-      description: 'We collected over 50 bags of litter from around the UPEI campus. Thanks to all volunteers!',
-      location: 'UPEI Campus', time: '10:00',
-      imageUrl: '/images/placeholder.svg',
-    },
-    {
-      month: 'Mar', day: '15', title: 'Documentary Screening: "Our Planet"',
-      description: 'A screening of the popular nature documentary, followed by a discussion on local conservation efforts.',
-      location: 'Dalton Hall 117', time: '18:30',
-      imageUrl: '/images/placeholder.svg',
-    },
-    {
-      month: 'Feb', day: '10', title: 'Sustainability Workshop',
-      description: 'A hands-on workshop teaching practical ways to reduce waste and live more sustainably.',
-      location: 'McDougall Hall 101', time: '15:00',
-      imageUrl: '/images/placeholder.svg',
-    },
-  ];
+interface Event {
+  _id: string;
+  title: string;
+  date: string;
+  location: string;
+  description?: string; // Optional field
+  imageUrl: string;
+  isUpcoming: boolean;
+}
 
-export default function EventsPage() {
+async function getEvents(): Promise<Event[]> {
+  const query = groq`*[_type == "event"] | order(date desc) {
+    _id,
+    title,
+    "date": date,
+    location,
+    description,
+    "imageUrl": image.asset->url,
+    isUpcoming
+  }`;
+  return client.fetch(query);
+}
+
+export default async function EventsPage() {
+  // Fetch the data on the server
+  const events = await getEvents();
+
+  // Process and sort the data
+  const upcomingEvents = events
+    .filter((event) => event.isUpcoming)
+    .map((event) => {
+      const eventDate = new Date(event.date);
+      return {
+        ...event,
+        month: eventDate.toLocaleString('default', { month: 'short' }),
+        day: eventDate.getDate().toString(),
+        time: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+    });
+
+  const pastEvents = events
+    .filter((event) => !event.isUpcoming)
+    .map((event) => {
+      const eventDate = new Date(event.date);
+      return {
+        ...event,
+        month: eventDate.toLocaleString('default', { month: 'short' }),
+        day: eventDate.getDate().toString(),
+        time: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+    });
+
   return (
     <>
       <PageHero
@@ -51,6 +62,7 @@ export default function EventsPage() {
         title="What we are up to."
         imageUrl="/images/events-hero.jpg"
       />
+      {/* Pass live data to the components */}
       <EventListing title="Upcoming events" events={upcomingEvents} />
       <EventListing title="Past Events" events={pastEvents} dark_palette={true} />
     </>
