@@ -1,4 +1,5 @@
-// components/about/MissionVisionSection.tsx
+import Image from "next/image";
+
 export default function MissionVisionSection() {
     return (
       <section className="bg-base-bg py-16 sm:py-24">
@@ -16,7 +17,15 @@ export default function MissionVisionSection() {
                 empower students to create a more sustainable campus.
                 </p>
               </div>
-              <div className="h-48 w-full flex-shrink-0 rounded-md bg-accent-bg lg:h-full lg:w-48" />
+              <div className="h-48 w-full flex-shrink-0 rounded-md lg:h-full lg:w-48 flex items-center justify-center">
+                <Image 
+                  src="/images/mission.png"
+                  alt="Students planting trees on campus"
+                  width={192}
+                  height={192}
+                  className="h-36 w-46 rounded-md"
+                />
+              </div>
             </div>
   
             {/* Vision Block */}
@@ -31,7 +40,15 @@ export default function MissionVisionSection() {
                 students are equipped to lead the change.
                 </p>
               </div>
-              <div className="h-48 w-full flex-shrink-0 rounded-md bg-accent-bg lg:h-full lg:w-48" />
+              <div className="h-48 w-full flex-shrink-0 rounded-md lg:h-full lg:w-48 flex items-center justify-center md:pb-2">
+                <Image 
+                  src="/images/vision.png"
+                  alt="Students planting trees on campus"
+                  width={192}
+                  height={192}
+                  className="h-42 w-38 rounded-md"
+                />
+              </div>
             </div>
           </div>
         </div>
