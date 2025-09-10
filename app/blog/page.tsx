@@ -10,9 +10,9 @@ interface Post {
   title: string;
   author: string;
   publishedAt: string;
-  "imageUrl": string;
+  imageUrl: string;
   excerpt: string;
-  "slug": string;
+  slug: string;
   // We'll add tags properly later. For now, we just need the fields.
 }
 
