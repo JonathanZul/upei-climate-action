@@ -1,39 +1,56 @@
 import PageHero from '@/components/ui/PageHero';
 import BlogPostCard from '@/components/blog/BlogPostCard';
 import { FaChevronDown, FaSearch } from 'react-icons/fa';
+import { client } from '@/lib/sanity';
+import { groq } from 'next-sanity';
 
-const mockPosts = [
-  {
-    tag: 'Environment', author: 'John Smith', date: 'Sep 11, 2024',
-    title: 'Lorem ipsum dolor sit amet non nunc aliquet.',
-    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa sit amet, consectetur adipiscing elit. Vivamus etia...',
-    imageUrl: '/images/placeholder.svg',
-    postUrl: '#',
-  },
-  {
-    tag: 'Advocacy', author: 'Jane Doe', date: 'Sep 9, 2024',
-    title: 'Vivamus etiam mattis non nunc aliquet.',
-    excerpt: 'Consectetur adipiscing elit. Massa sit amet, consectetur adipiscing elit. Vivamus etia Lorem ipsum dolor sit amet...',
-    imageUrl: '/images/placeholder.svg',
-    postUrl: '#',
-  },
-  {
-    tag: 'Policy', author: 'Alex Green', date: 'Sep 7, 2024',
-    title: 'Policy changes and their impact on climate.',
-    excerpt: 'Explore how recent policy changes are affecting climate action and what it means for the future.',
-    imageUrl: '/images/placeholder.svg',
-    postUrl: '#',
-  },
-  {
-    tag: 'Science', author: 'Maria Lopez', date: 'Sep 5, 2024',
-    title: 'The science behind global warming explained.',
-    excerpt: 'A deep dive into the scientific principles driving global warming and what we can do to mitigate its effects.',
-    imageUrl: '/images/placeholder.svg',
-    postUrl: '#',
-  },
-];
+// Define the shape of the post data
+interface Post {
+  _id: string;
+  title: string;
+  author: string;
+  publishedAt: string;
+  imageUrl: string;
+  excerpt: string;
+  slug: string;
+  // We'll add tags properly later. For now, we just need the fields.
+}
 
-export default function BlogPage() {
+// Create the data fetching function
+async function getPosts(): Promise<Post[]> {
+  // Query for all posts, ordered by publish date
+  const query = groq`*[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    author,
+    publishedAt,
+    "imageUrl": mainImage.asset->url,
+    excerpt,
+    "slug": slug.current
+  }`;
+  return client.fetch(query);
+}
+
+// Helper function to format the date
+function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+export default async function BlogPage() {
+  const posts = await getPosts();
+
+  // Transform posts to match BlogPostCardProps
+  const formattedPosts = posts.map((post) => ({
+    ...post,
+    date: formatDate(post.publishedAt),
+    tag: 'Environment', // Hardcode a tag for now
+  }));
+
+
   return (
     <>
       <PageHero
@@ -47,13 +64,16 @@ export default function BlogPage() {
           {/* Main Content: Blog Posts */}
           <main className="lg:col-span-2">
             <div className="space-y-12">
-              {mockPosts.map((post) => (
-                <BlogPostCard key={post.title} {...post} />
+              {formattedPosts.map((post) => (
+                <BlogPostCard
+                  key={post._id}
+                  {...post}
+                />
               ))}
             </div>
           </main>
 
-          {/* Sidebar */}
+          {/* Sidebar (still static) */}
           <aside className="lg:col-span-1">
             <div className="sticky top-24 space-y-8">
               {/* Search Bar */}
