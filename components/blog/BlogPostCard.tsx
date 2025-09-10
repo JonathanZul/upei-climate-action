@@ -2,25 +2,28 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HiArrowRight } from 'react-icons/hi2';
 
-type BlogPostCardProps = {
-  tag: string;
+export type BlogPostCardProps = {
+  _id: string;
+  title: string;
   author: string;
   date: string;
-  title: string;
-  excerpt: string;
   imageUrl: string;
-  postUrl: string;
+  excerpt: string;
+  slug: string; // The URL slug
+  tag: string; // Assuming 'tag' is a simple string for now
 };
 
 export default function BlogPostCard({
-  tag,
+  title,
   author,
   date,
-  title,
-  excerpt,
   imageUrl,
-  postUrl,
+  excerpt,
+  slug,
+  tag,
 }: BlogPostCardProps) {
+  const postUrl = `/blog/${slug}`;
+
   return (
     <article className="flex flex-col gap-6 border-b-2 border-accent-bg pb-8 sm:flex-row">
       <div className="w-full sm:w-1/3">
@@ -35,7 +38,7 @@ export default function BlogPostCard({
       <div className="flex w-full flex-col sm:w-2/3">
         <div className="mb-2">
           <span className="inline-block rounded-full bg-secondary px-3 py-1 text-xs font-semibold uppercase text-white-text">
-            {tag}
+            {tag || 'Environment'}
           </span>
         </div>
         <div className="mb-2 flex items-center space-x-2 text-sm text-tertiary">
