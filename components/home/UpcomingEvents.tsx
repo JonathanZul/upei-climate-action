@@ -1,39 +1,23 @@
 import EventCard from '../ui/EventCard';
 
-const events = [
-  {
-    month: 'Sep',
-    day: '24',
-    title: 'Annual General Meeting',
-    description:
-      'Join us for our AGM to discuss the past year and elect our new executive team. Refreshments will be provided.',
-    location: 'McDougall Hall 242',
-    time: '14:30',
-    imageUrl: '/images/placeholder.svg',
-  },
-  {
-    month: 'Oct',
-    day: '12',
-    title: 'Campus Cleanup Initiative',
-    description:
-      'Help us make UPEI a greener place. We will be meeting at the student center to clean up the campus grounds.',
-    location: 'W.A. Murphy Student Centre',
-    time: '10:00',
-    imageUrl: '/images/placeholder.svg',
-  },
-  {
-    month: 'Oct',
-    day: '28',
-    title: 'Guest Speaker: Dr. Jane Foster on Climate Policy',
-    description:
-      'Learn about the latest in climate policy from a leading expert in the field. Q&A session to follow.',
-    location: 'Online via Zoom',
-    time: '18:00',
-    imageUrl: '/images/placeholder.svg',
-  },
-];
+// Define the shape of data this component expects
+type ProcessedEvent = {
+  month: string;
+  day: string;
+  title: string;
+  description: string;
+  location: string;
+  time: string;
+  imageUrl: string;
+  isUpcoming: boolean;
+};
 
-export default function UpcomingEvents() {
+// Define the props for the UpcomingEvents component
+type UpcomingEventsProps = {
+  events: ProcessedEvent[];
+};
+
+export default function UpcomingEvents({ events }: UpcomingEventsProps) {
   return (
     <section className="bg-base-bg py-16 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
@@ -42,7 +26,7 @@ export default function UpcomingEvents() {
         </h2>
         <div className="mt-12 flex flex-col gap-12">
           {events.map((event) => (
-            <EventCard key={`${event.month}-${event.day}-${event.title}`} {...event} />
+            <EventCard key={event.title} {...event} />
           ))}
         </div>
       </div>
