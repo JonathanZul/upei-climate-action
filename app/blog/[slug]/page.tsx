@@ -16,7 +16,7 @@ interface Post {
 }
 
 // Create the data fetching function for a single post
-async function getPost(slug: string): Promise<Post> {
+async function getPost(slug: string): Promise<Post | null> {
   const query = groq`*[_type == "post" && slug.current == $slug][0] {
     title,
     author,
