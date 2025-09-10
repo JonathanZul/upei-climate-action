@@ -1,8 +1,16 @@
 // components/home/WhatsNew.tsx
 import Image from 'next/image';
 import Link from 'next/link';
+import { BlogPostCardProps } from '../blog/BlogPostCard';
 
-export default function WhatsNew() {
+type WhatsNewProps = {
+  posts: BlogPostCardProps[];
+};
+
+export default function WhatsNew({ posts }: WhatsNewProps) {
+ // Separate the first post as featured and the rest as smaller posts
+  const [featuredPost, ...otherPosts] = posts;
+
   return (
     <section className="bg-base-bg py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -11,44 +19,43 @@ export default function WhatsNew() {
         </h2>
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left Column: Featured Post */}
-          <div className="flex flex-col gap-3">
-            <Image
-              src="/images/placeholder.svg"
-              alt="Featured announcement placeholder"
-              width={500}
-              height={300}
-              className="h-auto w-full rounded-md object-cover"
-            />
-            <p className="font-nunito text-sm font-semibold uppercase tracking-wider text-secondary">
-              September 15, 2024
-            </p>
-            <h3 className="font-poppins text-xl font-bold text-tertiary">
-              This would be the title of the announcement or event highlight, try
-              to keep titles between 30 and 120 characters.
-            </h3>
-          </div>
+          {featuredPost && (
+            <div className="flex flex-col gap-3">
+              <Link href={`/blog/${featuredPost.slug}`}>
+                <Image
+                  src={featuredPost.imageUrl}
+                  alt={`Image for ${featuredPost.title}`}
+                  width={500}
+                  height={300}
+                  className="h-auto w-full rounded-md object-cover transition-transform duration-300 hover:scale-105"
+                />
+              </Link>
+              <p className="font-nunito text-sm font-semibold uppercase tracking-wider text-secondary">
+                {featuredPost.date}
+              </p>
+              <h3 className="font-poppins text-xl font-bold text-tertiary">
+                <Link href={`/blog/${featuredPost.slug}`} className="hover:text-primary">
+                  {featuredPost.title}
+                </Link>
+              </h3>
+            </div>
+          )}
 
           {/* Right Column: Smaller Posts & Button */}
           <div className="flex flex-col justify-between gap-12">
             <div className="flex flex-col gap-10">
-              {/* Post 1 */}
-              <div className="flex flex-col gap-3">
-                <p className="font-nunito text-sm font-semibold uppercase tracking-wider text-secondary">
-                  September 11, 2024
-                </p>
-                <h3 className="font-poppins text-xl font-bold text-tertiary">
-                  This would be the title of the announcement or event highlight.
-                </h3>
-              </div>
-              {/* Post 2 */}
-              <div className="flex flex-col gap-3">
-                <p className="font-nunito text-sm font-semibold uppercase tracking-wider text-secondary">
-                  September 11, 2024
-                </p>
-                <h3 className="font-poppins text-xl font-bold text-tertiary">
-                  Another highlight, keeping the title concise and engaging.
-                </h3>
-              </div>
+            {otherPosts.map((post) => (
+                <div key={post._id} className="flex flex-col gap-3">
+                  <p className="font-nunito text-sm font-semibold uppercase tracking-wider text-secondary">
+                    {post.date}
+                  </p>
+                  <h3 className="font-poppins text-xl font-bold text-tertiary">
+                    <Link href={`/blog/${post.slug}`} className="hover:text-primary">
+                      {post.title}
+                    </Link>
+                  </h3>
+                </div>
+              ))}
             </div>
             <div className="text-center lg:text-left flex items-center justify-center">
               <Link
