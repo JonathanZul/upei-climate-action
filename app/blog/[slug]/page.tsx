@@ -4,13 +4,14 @@ import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import { urlFor } from '@/lib/sanity';
 
 // Define the shape of a single post
 interface Post {
   title: string;
   author: string;
   publishedAt: string;
-  imageUrl: string;
+  image: object; // Sanity image object
   excerpt: string;
   body: any[]; // Portable Text is a complex array
 }
@@ -21,7 +22,7 @@ async function getPost(slug: string): Promise<Post | null> {
     title,
     author,
     publishedAt,
-    "imageUrl": mainImage.asset->url,
+    "image": mainImage,
     excerpt,
     body
   }`;
@@ -86,7 +87,7 @@ export default async function PostPage({ params }: Props) {
 
         {/* Main Image */}
         <Image
-          src={post.imageUrl}
+          src={urlFor(post.image).width(800).height(450).quality(80).url()}
           alt={`Main image for ${post.title}`}
           width={800}
           height={450}

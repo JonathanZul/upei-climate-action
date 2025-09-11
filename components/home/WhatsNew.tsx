@@ -2,9 +2,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { BlogPostCardProps } from '../blog/BlogPostCard';
+import { urlFor } from '@/lib/sanity';
+
+// Define the shape of a post for this component
+type Post = {
+  _id: string;
+  title: string;
+  date: string;
+  image?: object; // Make the image object optional
+  excerpt: string;
+  slug: string;
+};
 
 type WhatsNewProps = {
-  posts: BlogPostCardProps[];
+  posts: Post[];
 };
 
 export default function WhatsNew({ posts }: WhatsNewProps) {
@@ -23,7 +34,7 @@ export default function WhatsNew({ posts }: WhatsNewProps) {
             <div className="flex flex-col gap-3">
               <Link href={`/blog/${featuredPost.slug}`}>
                 <Image
-                  src={featuredPost.imageUrl}
+                  src={urlFor(featuredPost.image).width(1000).height(600).quality(80).url()}
                   alt={`Image for ${featuredPost.title}`}
                   width={500}
                   height={300}

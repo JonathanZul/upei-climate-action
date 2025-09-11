@@ -6,7 +6,7 @@ interface TeamMember {
   pronouns: string;
   position: string;
   bio: string;
-  imageUrl: string;
+  image: object;
 }
 
 // Props for the TeamSection component

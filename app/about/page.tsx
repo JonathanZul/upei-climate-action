@@ -22,7 +22,7 @@ async function getTeamMembers(): Promise<TeamMember[]> {
     pronouns,
     position,
     bio,
-    "imageUrl": image.asset->url
+    "image": image
   }`;
   return client.fetch(query);
 }

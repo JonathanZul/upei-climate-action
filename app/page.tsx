@@ -6,6 +6,26 @@ import { client } from '@/lib/sanity';
 import { groq } from 'next-sanity';
 import { BlogPostCardProps } from '@/components/blog/BlogPostCard';
 
+// Define the shape of the data we expect from the queries
+interface HomePagePost {
+  _id: string;
+  title: string;
+  publishedAt: string;
+  image: object; // Expecting the full image object
+  excerpt: string;
+  slug: string;
+}
+
+interface HomePageEvent {
+  _id: string;
+  title: string;
+  date: string;
+  location: string;
+  description?: string;
+  image: object; // Expecting the full image object
+  isUpcoming: boolean;
+}
+
 // Fetch latest 3 blog posts for the WhatsNew section
 async function getLatestPosts() {
   const query = groq`*[_type == "post"] | order(publishedAt desc)[0...3] {
@@ -13,7 +33,7 @@ async function getLatestPosts() {
     title,
     author,
     publishedAt,
-    "imageUrl": mainImage.asset->url,
+    "image": mainImage,
     excerpt,
     "slug": slug.current,
   }`;
@@ -28,7 +48,7 @@ async function getUpcomingEvents() {
     "date": date,
     location,
     description,
-    "imageUrl": image.asset->url,
+    "image": image,
     isUpcoming
   }`;
   return client.fetch(query);
