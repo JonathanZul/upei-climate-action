@@ -1,6 +1,6 @@
 import PageHero from '@/components/ui/PageHero';
 import BlogPostCard from '@/components/blog/BlogPostCard';
-import BlogSidebar from '@/components/blog/BlogSidebar';
+import BlogActions from '@/components/blog/BlogActions';
 import { FaChevronDown, FaSearch } from 'react-icons/fa';
 import { client } from '@/lib/sanity';
 import { groq } from 'next-sanity';
@@ -94,21 +94,33 @@ export default async function BlogPage({
       />
 
       <div className="bg-base-bg py-16 sm:py-24">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-3">
-          {/* Main Content: Blog Posts */}
-          <main className="lg:col-span-2">
-          {formattedPosts.length > 0 ? (
-              <div className="space-y-12">
-                {formattedPosts.map((post) => (
-                  <BlogPostCard key={post._id} {...post} />
-                ))}
-              </div>
-            ) : (
-              <p>No posts found. Try a different filter or search term.</p>
-            )}
-          </main>
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          {/* Actions for Mobile (visible on small screens, hidden on lg and up) */}
+          <div className="mb-8 lg:hidden">
+            <BlogActions tags={tags} />
+          </div>
 
-          <BlogSidebar tags={tags} />
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
+            {/* Main Content: Blog Posts */}
+            <main className="lg:col-span-2">
+            {formattedPosts.length > 0 ? (
+                <div className="space-y-12">
+                  {formattedPosts.map((post) => (
+                    <BlogPostCard key={post._id} {...post} />
+                  ))}
+                </div>
+              ) : (
+                <p>No posts found. Try a different filter or search term.</p>
+              )}
+            </main>
+
+            {/* Sidebar for Desktop (hidden on small screens, visible on lg and up) */}
+            <aside className="hidden lg:block">
+              <div className="sticky top-24">
+                <BlogActions tags={tags} />
+              </div>
+            </aside>
+          </div>
         </div>
       </div>
     </>
