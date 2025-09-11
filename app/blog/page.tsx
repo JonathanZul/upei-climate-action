@@ -11,7 +11,7 @@ interface Post {
   title: string;
   author: string;
   publishedAt: string;
-  imageUrl: string;
+  image: object; // Sanity image object
   excerpt: string;
   slug: string;
 }
@@ -40,9 +40,13 @@ async function getPosts({ tag, search }: { tag?: string; search?: string }): Pro
   }
 
   const query = groq`*[${filters.join(' && ')}] | order(publishedAt desc) {
-    _id, title, author, publishedAt,
-    "imageUrl": mainImage.asset->url,
-    excerpt, "slug": slug.current
+    _id, 
+    title, 
+    author, 
+    publishedAt,
+    "image": mainImage,
+    excerpt, 
+    "slug": slug.current
   }`;
 
   return client.fetch(query, params);

@@ -1,11 +1,12 @@
 import Image from 'next/image';
+import { urlFor } from '@/lib/sanity';
 
 type TeamMemberCardProps = {
   name: string;
   pronouns: string;
   position: string;
   bio: string;
-  imageUrl: string; // The URL for the member's image
+  image: object; // Sanity image object
 };
 
 export default function TeamMemberCard({
@@ -13,13 +14,13 @@ export default function TeamMemberCard({
   pronouns,
   position,
   bio,
-  imageUrl,
+  image,
 }: TeamMemberCardProps) {
   return (
     <div className="flex flex-col items-center text-center">
       <div className="relative mb-4 h-48 w-48 overflow-hidden rounded-full border-accent-bg border-6">
         <Image
-          src={imageUrl}
+          src={urlFor(image).width(512).height(512).quality(80).url()}
           alt={`Headshot of ${name}`}
           fill
           className="object-cover"

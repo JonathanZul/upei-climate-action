@@ -1,13 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { HiArrowRight } from 'react-icons/hi2';
+import { urlFor } from '@/lib/sanity';
 
 export type BlogPostCardProps = {
   _id: string;
   title: string;
   author: string;
   date: string;
-  imageUrl: string;
+  image: object; // Sanity image object
   excerpt: string;
   slug: string; // The URL slug
   tag: string; // Assuming 'tag' is a simple string for now
@@ -17,7 +18,7 @@ export default function BlogPostCard({
   title,
   author,
   date,
-  imageUrl,
+  image,
   excerpt,
   slug,
   tag,
@@ -28,7 +29,7 @@ export default function BlogPostCard({
     <article className="flex flex-col gap-6 border-b-2 border-accent-bg pb-8 sm:flex-row">
       <div className="w-full sm:w-1/3">
         <Image
-          src={imageUrl}
+          src={urlFor(image).width(600).height(400).quality(70).url()}
           alt={`Image for ${title}`}
           width={300}
           height={200}

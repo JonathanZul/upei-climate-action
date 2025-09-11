@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { urlFor } from '@/lib/sanity';
 
 type EventCardProps = {
   month: string;
@@ -7,7 +8,7 @@ type EventCardProps = {
   description: string;
   location: string;
   time: string;
-  imageUrl: string;
+  image: object; // Sanity image object
   white_text?: boolean;
 };
 
@@ -18,7 +19,7 @@ export default function EventCard({
   description,
   location,
   time,
-  imageUrl,
+  image,
   white_text = false,
 }: EventCardProps) {
   return (
@@ -35,7 +36,7 @@ export default function EventCard({
       {/* Image */}
       <div className="flex-shrink-0">
         <Image
-          src={imageUrl}
+          src={urlFor(image).width(480).height(400).quality(80).url()}
           alt={`Image for ${title}`}
           width={240}
           height={200}

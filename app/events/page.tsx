@@ -20,7 +20,7 @@ async function getEvents(): Promise<Event[]> {
     "date": date,
     location,
     description,
-    "imageUrl": image.asset->url,
+    "image": image,
     isUpcoming
   }`;
   return client.fetch(query);
