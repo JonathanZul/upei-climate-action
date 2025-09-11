@@ -34,7 +34,9 @@ async function getPosts({ tag, search }: { tag?: string; search?: string }): Pro
   
   if (search) {
     filters.push('(title match $search || excerpt match $search || pt::text(body) match $search)');
-    params.search = `*${search}*`; // Use wildcard matching
+    // Escape GROQ special characters in the search string
+    const escapeGROQ = (str: string) => str.replace(/([*?^$[\]\\(){}|.])/g, '\\$1');
+    params.search = `*${escapeGROQ(search)}*`; // Use wildcard matching with escaped input
   }
 
   const query = groq`*[${filters.join(' && ')}] | order(publishedAt desc) {
