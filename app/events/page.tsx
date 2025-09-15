@@ -1,70 +1,56 @@
+// app/events/page.tsx
 import PageHero from '@/components/ui/PageHero';
 import EventListing from '@/components/events/EventListing';
-import {client } from '@/lib/sanity';
-import { groq } from 'next-sanity';
+import PastEventsList from '@/components/events/PastEventsList';
+import { getUpcomingEvents, getPastEvents } from './page.server';
+import { Event } from './shared';
 
-interface Event {
-  _id: string;
-  title: string;
-  date: string;
-  location: string;
-  description?: string; // Optional field
-  imageUrl: string;
-  isUpcoming: boolean;
-}
-
-async function getEvents(): Promise<Event[]> {
-  const query = groq`*[_type == "event"] | order(date desc) {
-    _id,
-    title,
-    "date": date,
-    location,
-    description,
-    "image": image,
-    isUpcoming
-  }`;
-  return client.fetch(query);
-}
+const transformEvent = (event: Event) => {
+  const eventDate = new Date(event.date);
+  return {
+    ...event,
+    description: event.description || '',
+    month: eventDate.toLocaleString('default', { month: 'short' }),
+    day: eventDate.getDate().toString(),
+    time: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  };
+};
 
 export default async function EventsPage() {
-  // Fetch the data on the server
-  const events = await getEvents();
+  const [upcomingEventsData, initialPastEventsData] = await Promise.all([
+    getUpcomingEvents(),
+    getPastEvents(0),
+  ]);
 
-  // Process and sort the data
-  const upcomingEvents = events
-    .filter((event) => event.isUpcoming)
-    .map((event) => {
-      const eventDate = new Date(event.date);
-      return {
-        ...event,
-        month: eventDate.toLocaleString('default', { month: 'short' }),
-        day: eventDate.getDate().toString(),
-        time: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-    });
+  const formattedUpcomingEvents = upcomingEventsData.map(transformEvent);
+  const formattedInitialPastEvents = initialPastEventsData.map(transformEvent);
 
-  const pastEvents = events
-    .filter((event) => !event.isUpcoming)
-    .map((event) => {
-      const eventDate = new Date(event.date);
-      return {
-        ...event,
-        month: eventDate.toLocaleString('default', { month: 'short' }),
-        day: eventDate.getDate().toString(),
-        time: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-    });
+  // --- THE FIX IS HERE ---
+  // Define the server action directly inside the Server Component
+  async function fetchMorePastEvents(page: number) {
+    "use server";
+    const newEvents = await getPastEvents(page);
+    return newEvents.map(transformEvent);
+  }
 
   return (
     <>
-      <PageHero
-        preTitle="Events"
-        title="What we are up to."
-        imageUrl="/images/events-hero.jpg"
-      />
-      {/* Pass live data to the components */}
-      <EventListing title="Upcoming events" events={upcomingEvents} />
-      <EventListing title="Past Events" events={pastEvents} dark_palette={true} />
+      <PageHero preTitle="Events" title="What we are up to." imageUrl="/images/events-hero.jpg" />
+      <EventListing title="Upcoming events" events={formattedUpcomingEvents} />
+      <section className="bg-tertiary py-16 sm:py-24">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+          <h2 className="text-center font-montserrat text-4xl font-medium text-white-text sm:text-5xl">
+            Past Events
+          </h2>
+          <div className="mt-12">
+            {/* Pass the action down as a prop */}
+            <PastEventsList 
+              initialItems={formattedInitialPastEvents}
+              fetchNextPage={fetchMorePastEvents} 
+            />
+          </div>
+        </div>
+      </section>
     </>
   );
 }
