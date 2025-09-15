@@ -34,13 +34,13 @@ export default function Footer() {
               </p>
               <div className="flex flex-col space-y-4">
                 <div className="flex flex-row items-center space-x-3">
-                  <a href="#" className="text-tertiary group flex space-x-3 items-center" aria-label="Instagram">
+                  <a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/upei.climate/" className="text-tertiary group flex space-x-3 items-center" aria-label="Instagram">
                     <FaInstagram size={24} className="group-hover:text-primary" />
                     <span className="bg-tertiary group-hover:bg-primary text-white-text text-xs w-16 text-center py-1 rounded-2xl">Follow</span>
                   </a>
                 </div>
-                <a href="#" className="text-tertiary group flex space-x-3 items-center" aria-label="Discord">
-                  <FaDiscord size={24} className="group-hover:text-primary" /> {/* Placeholder for Discord Icon */}
+                <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/mCNdKGcBBb" className="text-tertiary group flex space-x-3 items-center" aria-label="Discord">
+                  <FaDiscord size={24} className="group-hover:text-primary" />
                   <span className="bg-tertiary group-hover:bg-primary text-white-text text-xs w-16 text-center py-1 rounded-2xl">Join</span>
                 </a>
               </div>
