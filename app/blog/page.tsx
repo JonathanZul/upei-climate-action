@@ -3,6 +3,7 @@ import PageHero from '@/components/ui/PageHero';
 import BlogActions from '@/components/blog/BlogActions';
 import BlogPostList from '@/components/blog/BlogPostList';
 import { getPosts, getTags } from './page.server';
+import { Post } from './shared';
 
 const transformPost = (post: Post) => ({ ...post, date: formatDate(post.publishedAt), tag: 'Environment' });
 
