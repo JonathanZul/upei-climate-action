@@ -22,7 +22,7 @@ export default function Header() {
       <nav
         className={`relative mx-4 mt-4 ${
           isMenuOpen ? 'rounded-t-lg' : 'rounded-lg'
-        } lg:bg-white/70 ${ isMenuOpen ? 'bg-white/98' : 'bg-white/70'} shadow-md backdrop-blur-sm lg:mx-auto lg:max-w-6xl`}
+        } ${ isMenuOpen ? 'bg-white/98' : 'bg-white/70'} shadow-md backdrop-blur-sm lg:mx-auto lg:max-w-6xl`}
       >
         <div className="flex items-center justify-between px-4 py-2.5 sm:px-6">
           <Link href="/" className="flex items-center space-x-2">
