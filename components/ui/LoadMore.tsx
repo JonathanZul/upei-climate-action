@@ -18,7 +18,7 @@ export default function LoadMore<T extends { _id: string }>({
 }: LoadMoreProps<T>) {
   const [items, setItems] = useState(initialItems);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialItems.length === itemsPerPage);
+  const [hasMore, setHasMore] = useState(initialItems.length >= itemsPerPage);
   const [isLoading, setIsLoading] = useState(false);
 
   const loadMoreItems = async () => {
