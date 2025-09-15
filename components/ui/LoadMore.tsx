@@ -23,10 +23,11 @@ export default function LoadMore<T extends { _id: string }>({
 
   const loadMoreItems = async () => {
     setIsLoading(true);
-    const newItems = await fetchNextPage(page);
+    const nextPage = page + 1;
+    const newItems = await fetchNextPage(nextPage);
     if (newItems.length > 0) {
       setItems((prevItems) => [...prevItems, ...newItems]);
-      setPage((prevPage) => prevPage + 1);
+      setPage(nextPage);
       setHasMore(newItems.length === itemsPerPage);
     } else {
       setHasMore(false);
