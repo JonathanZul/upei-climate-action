@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaInstagram, FaDiscord } from 'react-icons/fa'; // Using Font Awesome for brands
+import NewsletterForm from '../ui/NewsletterForm';
 
 export default function Footer() {
   return (
@@ -63,22 +64,9 @@ export default function Footer() {
             <p className="mt-2 text-sm">
               Get emails with the latest news about events and initiatives!
             </p>
-            <form className="mt-4">
-              <div className="flex items-center gap-2">
-                <input
-                  type="email"
-                  placeholder="janedoe@upei.ca"
-                  className="w-full rounded-md border-tertiary border px-3 py-1.5 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <button
-                  type="submit"
-                  className="rounded-md bg-primary px-3 py-1.5 text-sm text-white-text transition-transform hover:scale-105"
-                >
-                  Join
-                </button>
-              </div>
-              <p className="mt-2 text-xs text-gray-500">No spam, we also hate it.</p>
-            </form>
+            <div className="mt-4">
+              <NewsletterForm />
+            </div>
           </div>
         </div>
       </div>
