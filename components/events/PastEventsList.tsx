@@ -17,7 +17,7 @@ export default function PastEventsList({ initialItems, fetchNextPage }: PastEven
       initialItems={initialItems}
       // Pass the server action prop directly to LoadMore
       fetchNextPage={fetchNextPage}
-      renderItem={(event) => <EventCard {...event} white_text={true} />}
+      renderItem={(event) => <EventCard {...event} image={event.image ?? {}} white_text={true} />}
       itemsPerPage={PAST_EVENTS_PER_PAGE}
     />
   );

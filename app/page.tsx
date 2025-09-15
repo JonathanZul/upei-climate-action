@@ -5,26 +5,8 @@ import UpcomingEvents from '@/components/home/UpcomingEvents';
 import { client } from '@/lib/sanity';
 import { groq } from 'next-sanity';
 import { BlogPostCardProps } from '@/components/blog/BlogPostCard';
-
-// Define the shape of the data we expect from the queries
-interface HomePagePost {
-  _id: string;
-  title: string;
-  publishedAt: string;
-  image: object; // Expecting the full image object
-  excerpt: string;
-  slug: string;
-}
-
-interface HomePageEvent {
-  _id: string;
-  title: string;
-  date: string;
-  location: string;
-  description?: string;
-  image: object; // Expecting the full image object
-  isUpcoming: boolean;
-}
+import { Post } from './blog/shared';
+import { Event } from './events/shared';
 
 // Fetch latest 3 blog posts for the WhatsNew section
 async function getLatestPosts() {
@@ -65,14 +47,14 @@ export default async function Home() {
   ]);
 
   // Transform posts to match BlogPostCardProps
-  const formattedPosts = posts.map((post: any) => ({
+  const formattedPosts = posts.map((post: Post) => ({
     ...post,
     date: formatDate(post.publishedAt),
     tag: 'Environment', // Hardcoded for now
   }));
 
   // Transform events to match UpcomingEvents props
-  const formattedEvents = events.map((event: any) => {
+  const formattedEvents = events.map((event: Event) => {
     const eventDate = new Date(event.date);
     return {
       ...event,

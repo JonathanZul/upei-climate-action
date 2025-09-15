@@ -19,7 +19,7 @@ export default function Hero() {
           <span className="font-bold">Together.</span>
         </h1>
         <p className="mt-6 max-w-2xl font-nunito text-base text-tertiary md:text-lg">
-        Passionate about protecting our planet? You're in the right place. 
+        Passionate about protecting our planet? You&apos;re in the right place. 
         We are a welcoming community for all UPEI students who want to learn 
         about sustainability, connect with others, and take meaningful action 
         right here on campus.

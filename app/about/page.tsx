@@ -11,7 +11,7 @@ interface TeamMember {
   pronouns: string;
   position: string;
   bio: string;
-  imageUrl: string;
+  image: object;
 }
 
 // Create the data fetching function

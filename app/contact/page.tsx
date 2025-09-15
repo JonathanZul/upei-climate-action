@@ -16,7 +16,7 @@ export default function ContactPage() {
           Contact Us
         </p>
         <h1 className="mt-2 font-montserrat text-5xl font-bold sm:text-6xl">
-          We'd love to hear from you!
+          We&apos;d love to hear from you!
         </h1>
 
         {/* Render the Client Component */}

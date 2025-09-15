@@ -1,4 +1,3 @@
-// app/blog/page.tsx
 import PageHero from '@/components/ui/PageHero';
 import BlogActions from '@/components/blog/BlogActions';
 import BlogPostList from '@/components/blog/BlogPostList';

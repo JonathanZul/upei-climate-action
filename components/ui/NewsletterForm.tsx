@@ -29,9 +29,9 @@ export default function NewsletterForm() {
       setStatus('success');
       setMessage('Success! You have been subscribed.');
       reset();
-    } catch (error: any) {
+    } catch (error: unknown) {
       setStatus('error');
-      setMessage(error.message || 'An error occurred. Please try again.');
+      setMessage((error as Error).message || 'An error occurred. Please try again.');
     }
   };
 

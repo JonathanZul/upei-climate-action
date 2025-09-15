@@ -3,7 +3,7 @@
 
 import LoadMore from '@/components/ui/LoadMore';
 import BlogPostCard from '@/components/blog/BlogPostCard';
-import { POSTS_PER_PAGE, type Post, type Tag, type FormattedPost } from '@/app/blog/shared';
+import { POSTS_PER_PAGE, type FormattedPost } from '@/app/blog/shared';
 
 // Update the props to accept the server action
 type BlogPostListProps = {
@@ -16,7 +16,7 @@ export default function BlogPostList({ initialItems, fetchNextPage }: BlogPostLi
     <LoadMore
       initialItems={initialItems}
       fetchNextPage={fetchNextPage}
-      renderItem={(post) => <BlogPostCard {...post} />}
+      renderItem={(post) => <BlogPostCard {...post} image={post.image ?? {}} />}
       itemsPerPage={POSTS_PER_PAGE}
     />
   );

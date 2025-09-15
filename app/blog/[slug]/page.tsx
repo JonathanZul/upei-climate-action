@@ -1,6 +1,6 @@
 import { client } from '@/lib/sanity';
 import { groq } from 'next-sanity';
-import { PortableText } from '@portabletext/react';
+import { PortableText, PortableTextBlock, type PortableTextComponents } from '@portabletext/react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -13,7 +13,7 @@ interface Post {
   publishedAt: string;
   image: object; // Sanity image object
   excerpt: string;
-  body: any[]; // Portable Text is a complex array
+  body: PortableTextBlock[]; 
 }
 
 // Create the data fetching function for a single post
@@ -35,9 +35,9 @@ const ptComponents = {
     // You can add custom components here if you extend the schema
   },
   block: {
-    h2: ({ children }: any) => <h2 className="mb-4 mt-8 font-montserrat text-3xl font-bold">{children}</h2>,
-    h3: ({ children }: any) => <h3 className="mb-4 mt-6 font-montserrat text-2xl font-bold">{children}</h3>,
-    blockquote: ({ children }: any) => <blockquote className="border-l-4 border-primary pl-4 italic my-6">{children}</blockquote>,
+    h2: ({ children }: { children?: React.ReactNode }) => <h2 className="mb-4 mt-8 font-montserrat text-3xl font-bold">{children}</h2>,
+    h3: ({ children }: { children?: React.ReactNode }) => <h3 className="mb-4 mt-6 font-montserrat text-2xl font-bold">{children}</h3>,
+    blockquote: ({ children }: { children?: React.ReactNode }) => <blockquote className="border-l-4 border-primary pl-4 italic my-6">{children}</blockquote>,
   },
   marks: {
     // Can add custom marks here

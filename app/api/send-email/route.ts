@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       from: 'Contact Form <onboarding@resend.dev>',
       to: [emailTo],
       subject: `New Message from ${name}`,
-      reply_to: email,
+      replyTo: email,
       react: ContactFormEmail({ name, email, message }),
     });
 

@@ -2,7 +2,7 @@
 
 import { client } from '@/lib/sanity';
 import { groq } from 'next-sanity';
-import { PAST_EVENTS_PER_PAGE, type Event, type FormattedEvent } from './shared';
+import { PAST_EVENTS_PER_PAGE, type Event } from './shared';
 
 export async function getUpcomingEvents(): Promise<Event[]> {
   const query = groq`*[_type == "event" && isUpcoming == true] | order(date asc) {

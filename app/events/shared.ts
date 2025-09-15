@@ -11,7 +11,7 @@ export interface Event {
   date: string;
   location: string;
   description?: string;
-  image: object;
+  image?: object | null;
   isUpcoming: boolean;
 }
 

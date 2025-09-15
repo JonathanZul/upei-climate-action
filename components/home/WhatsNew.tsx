@@ -1,7 +1,5 @@
-// components/home/WhatsNew.tsx
 import Image from 'next/image';
 import Link from 'next/link';
-import { BlogPostCardProps } from '../blog/BlogPostCard';
 import { urlFor } from '@/lib/sanity';
 
 // Define the shape of a post for this component
@@ -9,7 +7,7 @@ type Post = {
   _id: string;
   title: string;
   date: string;
-  image?: object; // Make the image object optional
+  image?: object;
   excerpt: string;
   slug: string;
 };
@@ -26,7 +24,7 @@ export default function WhatsNew({ posts }: WhatsNewProps) {
     <section className="bg-base-bg py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <h2 className="text-center font-montserrat text-3xl font-medium tracking-wide text-tertiary sm:text-4xl">
-          What’s New
+          What&apos;s New
         </h2>
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left Column: Featured Post */}
@@ -34,7 +32,11 @@ export default function WhatsNew({ posts }: WhatsNewProps) {
             <div className="flex flex-col gap-3">
               <Link href={`/blog/${featuredPost.slug}`}>
                 <Image
-                  src={urlFor(featuredPost.image).width(1000).height(600).quality(80).url()}
+                  src={
+                    featuredPost.image
+                      ? urlFor(featuredPost.image).width(1000).height(600).quality(80).url()
+                      : '/placeholder-image.jpg'
+                  }
                   alt={`Image for ${featuredPost.title}`}
                   width={500}
                   height={300}

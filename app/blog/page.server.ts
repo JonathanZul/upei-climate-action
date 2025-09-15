@@ -2,7 +2,7 @@
 
 import { client } from '@/lib/sanity';
 import { groq } from 'next-sanity';
-import { POSTS_PER_PAGE, type Post, type Tag, type FormattedPost } from './shared'
+import { POSTS_PER_PAGE, type Post, type Tag } from './shared'
 
 // Create the data fetching function
 export async function getPosts({ tag, search, page }: { tag?: string; search?: string, page: number }): 
@@ -10,8 +10,8 @@ Promise<Post[]> {
   const start = page * POSTS_PER_PAGE;
   const end = start + POSTS_PER_PAGE;
 
-  let filters = ['_type == "post"'];
-  let params: Record<string, any> = {};
+  const filters = ['_type == "post"'];
+  const params: Record<string, string> = {};
 
   if (tag) {
     filters.push('references(*[_type=="tag" && slug.current == $tag]._id)');
@@ -44,13 +44,4 @@ export async function getTags(): Promise<Tag[]> {
     _id, title, "slug": slug.current
   }`;
   return client.fetch(query);
-}
-
-// Helper function to format the date
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 }

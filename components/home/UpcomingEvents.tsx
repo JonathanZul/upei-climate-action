@@ -1,20 +1,9 @@
 import EventCard from '../ui/EventCard';
-
-// Define the shape of data this component expects
-type ProcessedEvent = {
-  month: string;
-  day: string;
-  title: string;
-  description: string;
-  location: string;
-  time: string;
-  imageUrl: string;
-  isUpcoming: boolean;
-};
+import { type FormattedEvent } from '@/app/events/shared';
 
 // Define the props for the UpcomingEvents component
 type UpcomingEventsProps = {
-  events: ProcessedEvent[];
+  events: FormattedEvent[];
 };
 
 export default function UpcomingEvents({ events }: UpcomingEventsProps) {
@@ -26,7 +15,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
         </h2>
         <div className="mt-12 flex flex-col gap-12">
           {events.map((event) => (
-            <EventCard key={event.title} {...event} />
+            <EventCard key={event._id} {...event} image={event.image ?? {}} />
           ))}
         </div>
       </div>
