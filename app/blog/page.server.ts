@@ -2,7 +2,7 @@
 
 import { client } from '@/lib/sanity';
 import { groq } from 'next-sanity';
-import { POSTS_PER_PAGE, type Post, type Tag, type FormattedPost } from './shared.ts'
+import { POSTS_PER_PAGE, type Post, type Tag, type FormattedPost } from './shared'
 
 // Create the data fetching function
 export async function getPosts({ tag, search, page }: { tag?: string; search?: string, page: number }): 
