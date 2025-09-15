@@ -31,7 +31,7 @@ export default function CtaSection() {
           {/* Right Column: Image */}
           <div className="flex-1">
             <Image
-              src="/images/placeholder.svg"
+              src="/images/contribute.jpg"
               alt="Club members participating in an event"
               width={600}
               height={600}
