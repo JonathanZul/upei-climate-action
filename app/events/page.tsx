@@ -3,6 +3,7 @@ import PageHero from '@/components/ui/PageHero';
 import EventListing from '@/components/events/EventListing';
 import PastEventsList from '@/components/events/PastEventsList';
 import { getUpcomingEvents, getPastEvents } from './page.server';
+import { Event } from './shared';
 
 const transformEvent = (event: Event) => {
   const eventDate = new Date(event.date);
