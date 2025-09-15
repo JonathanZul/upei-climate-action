@@ -18,11 +18,11 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-4 z-50 w-full">
+    <header className="sticky top-0 z-50 w-full">
       <nav
-        className={`relative mx-4 ${
+        className={`relative mx-4 mt-4 ${
           isMenuOpen ? 'rounded-t-lg' : 'rounded-lg'
-        } bg-white/70 shadow-md backdrop-blur-sm lg:mx-auto lg:max-w-6xl`}
+        } ${ isMenuOpen ? 'bg-white/98' : 'bg-white/70'} shadow-md backdrop-blur-sm lg:mx-auto lg:max-w-6xl`}
       >
         <div className="flex items-center justify-between px-4 py-2.5 sm:px-6">
           <Link href="/" className="flex items-center space-x-2">

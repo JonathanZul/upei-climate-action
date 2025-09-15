@@ -39,10 +39,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.variable} ${poppins.variable} ${nunito.variable} font-nunito`}
+        className={`${montserrat.variable} ${poppins.variable} ${nunito.variable} font-nunito relative`}
       >
         <Header />
-        <main>{children}</main>
+        <main className="relative">{children}</main>
         <Footer />
         <BackToTop />
         <NewsletterModal />
