@@ -5,7 +5,7 @@ const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
 const serverPrefix = process.env.MAILCHIMP_SERVER_PREFIX;
 
 if (!apiKey || !audienceId || !serverPrefix) {
-  console.error("Mailchimp environment variables are not set.");
+  throw new Error("Mailchimp environment variables are not set. Please configure MAILCHIMP_API_KEY, MAILCHIMP_AUDIENCE_ID, and MAILCHIMP_SERVER_PREFIX.");
 }
 
 export async function POST(request: Request) {
