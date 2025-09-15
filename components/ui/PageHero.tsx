@@ -8,7 +8,7 @@ type PageHeroProps = {
 
 export default function PageHero({ preTitle, title, imageUrl }: PageHeroProps) {
   return (
-    <section className="relative flex h-96 min-h-[300px] mt-[-8vh] items-center justify-center">
+    <section className="relative flex h-96 min-h-[300px] -mt-20 pt-20 items-center justify-center">
       {/* Background Image and Overlay */}
       <div className="absolute inset-0">
         <div
