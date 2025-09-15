@@ -7,7 +7,7 @@ interface RawEvent {
     date: string;
     location: string;
     description?: string;
-    imageUrl: string;
+    image: object;
     isUpcoming: boolean;
   }
 
@@ -19,7 +19,7 @@ type ProcessedEvent = {
   description: string;
   location: string;
   time: string;
-  imageUrl: string;
+  image: object;
 };
 
 // The component accepts the RAW data from Sanity

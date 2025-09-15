@@ -1,0 +1,22 @@
+export const POSTS_PER_PAGE = 10;
+
+export interface Post {
+  _id: string;
+  title: string;
+  author: string;
+  publishedAt: string;
+  image: object;
+  excerpt: string;
+  slug: string;
+}
+
+export interface FormattedPost {
+  _id: string;
+  title: string;
+  author: string;
+  date: string;
+  image?: object | null;
+  excerpt: string;
+  slug: string;
+  tag: string;
+}
