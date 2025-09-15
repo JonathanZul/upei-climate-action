@@ -45,8 +45,8 @@ export default function NewsletterModal() {
           <Image
             src="/images/h-logo.svg"
             alt="UPEI Climate Action Society Logo"
-            width={48}
-            height={48}
+            width={192}
+            height={96}
             className="h-24 w-48"
           />
         </div>
