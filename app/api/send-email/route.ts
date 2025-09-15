@@ -8,6 +8,22 @@ const emailTo = process.env.CONTACT_FORM_EMAIL_TO;
 export async function POST(request: Request) {
   const { name, email, message } = await request.json();
 
+  // Input validation
+  function isValidEmail(email: string): boolean {
+    // Simple email regex
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  if (
+    typeof name !== 'string' || name.trim() === '' ||
+    typeof email !== 'string' || email.trim() === '' || !isValidEmail(email) ||
+    typeof message !== 'string' || message.trim() === ''
+  ) {
+    return NextResponse.json(
+      { error: 'Invalid input: name, email, and message are required and must be properly formatted.' },
+      { status: 400 }
+    );
+  }
   if (!emailTo) {
     return NextResponse.json({ error: 'Email configuration missing' }, { status: 500 });
   }
