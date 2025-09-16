@@ -1,39 +1,24 @@
 "use client";
 
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type LoadMoreProps<T> = {
-  initialItems: T[];
-  totalItems: number;
-  fetchNextPage: (page: number) => Promise<T[]>;
-  renderItem: (item: T) => React.ReactNode;
+  items: T[]; // Receives the full list of items to render
+  renderItem: (item: T, index: number) => React.ReactNode;
+  onLoadMore: () => void; // A simple callback function
+  isLoading: boolean;
+  hasMore: boolean; // Receives a boolean to show/hide the button
   itemsPerPage: number;
 };
 
 export default function LoadMore<T extends { _id: string }>({
-  initialItems,
-  totalItems,
-  fetchNextPage,
+  items,
   renderItem,
-  itemsPerPage,
+  onLoadMore,
+  isLoading,
+  hasMore,
+  itemsPerPage
 }: LoadMoreProps<T>) {
-  const [items, setItems] = useState(initialItems);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const loadMoreItems = async () => {
-    setIsLoading(true);
-    const newItems = await fetchNextPage(page);
-    if (newItems.length > 0) {
-      setItems((prevItems) => [...prevItems, ...newItems]);
-      setPage((prevPage) => prevPage + 1);
-    }
-    setIsLoading(false);
-  };
-
-  const hasMoreItems = items.length < totalItems;
-
   return (
     <>
       <div className="flex flex-col gap-12">
@@ -46,16 +31,16 @@ export default function LoadMore<T extends { _id: string }>({
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, delay: (index % itemsPerPage) * 0.05 }}
             >
-              {renderItem(item)}
+              {renderItem(item, index)}
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
 
-      {hasMoreItems && (
+      {hasMore && (
         <div className="mt-12 text-center">
           <button
-            onClick={loadMoreItems}
+            onClick={onLoadMore}
             disabled={isLoading}
             className="rounded-full bg-primary px-6 py-3 font-nunito text-base text-white-text shadow-md transition-transform duration-200 hover:scale-105 disabled:cursor-not-allowed disabled:bg-gray-400"
           >

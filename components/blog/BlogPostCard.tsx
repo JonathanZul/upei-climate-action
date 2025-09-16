@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HiArrowRight } from 'react-icons/hi2';
 import { urlFor } from '@/lib/sanity';
+import {type Tag} from '@/app/blog/shared'
 
 export type BlogPostCardProps = {
   _id: string;
@@ -11,7 +12,8 @@ export type BlogPostCardProps = {
   image: object; // Sanity image object
   excerpt: string;
   slug: string; // The URL slug
-  tag: string; // Assuming 'tag' is a simple string for now
+  tags: Tag[]; 
+  primaryTag?: Tag; // The tag to highlight
 };
 
 export default function BlogPostCard({
@@ -21,32 +23,57 @@ export default function BlogPostCard({
   image,
   excerpt,
   slug,
-  tag,
+  tags,
+  primaryTag,
 }: BlogPostCardProps) {
   const postUrl = `/blog/${slug}`;
 
   return (
     <article className="flex flex-col gap-6 border-b-2 border-accent-bg pb-8 sm:flex-row">
       <div className="w-full sm:w-1/3">
-        <Image
-          src={urlFor(image).width(600).height(400).quality(70).url()}
-          alt={`Image for ${title}`}
-          width={300}
-          height={200}
-          className="h-full w-full rounded-md object-cover"
-        />
+        <Link 
+          href={postUrl}
+          className='block overflow-hidden rounded-md'
+        >
+          <div className='aspect-square relative'>
+            <Image
+              src={urlFor(image).width(600).height(600).quality(70).url()}
+              alt={`Image for ${title}`}
+              fill
+              sizes='(max-width: 640px) 100vw, 33vw'
+              className="object-contain transition-transform duration-300 hover:scale-105"
+            />
+          </div>
+        </Link>
       </div>
       <div className="flex w-full flex-col sm:w-2/3">
-        <div className="mb-2">
-          <span className="inline-block rounded-full bg-secondary px-3 py-1 text-xs font-semibold uppercase text-white-text">
-            {tag || 'Environment'}
-          </span>
+        {/* Tag Rendering Logic */}
+        <div className="relative mb-2 flex h-6 flex-wrap items-center gap-2 overflow-hidden">
+          {tags?.map((tag) => {
+            const isPrimary = tag._id === primaryTag?._id;
+            return (
+              <Link
+                key={tag._id}
+                href={`/blog?tag=${tag.slug}`}
+                className={`inline-block whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold uppercase transition-colors
+                  ${isPrimary
+                    ? 'bg-primary text-white-text hover:bg-primary/80'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`
+                }
+              >
+                {tag.title}
+              </Link>
+            );
+          })}
         </div>
+
         <div className="mb-2 flex items-center space-x-2 text-sm text-tertiary">
           <span>By {author}</span>
           <span>•</span>
           <span>{date}</span>
         </div>
+
         <h2 className="mb-4 font-poppins text-2xl font-bold text-tertiary">
           <Link href={postUrl} className="hover:text-primary">
             {title}
