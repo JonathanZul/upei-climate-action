@@ -9,15 +9,17 @@ import { POSTS_PER_PAGE, type FormattedPost } from '@/app/blog/shared';
 type BlogPostListProps = {
   initialItems: FormattedPost[];
   fetchNextPage: (page: number) => Promise<FormattedPost[]>;
+  totalItems: number;
 };
 
-export default function BlogPostList({ initialItems, fetchNextPage }: BlogPostListProps) {
+export default function BlogPostList({ initialItems, fetchNextPage, totalItems }: BlogPostListProps) {
   return (
     <LoadMore
       initialItems={initialItems}
       fetchNextPage={fetchNextPage}
       renderItem={(post) => <BlogPostCard {...post} image={post.image ?? {}} />}
       itemsPerPage={POSTS_PER_PAGE}
+      totalItems={totalItems}
     />
   );
 }

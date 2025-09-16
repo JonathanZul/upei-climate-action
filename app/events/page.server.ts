@@ -32,3 +32,8 @@ export async function getPastEvents(page: number): Promise<Event[]> {
   }`;
   return client.fetch(query, {}, { next: { tags: ['event'] } });
 }
+
+export async function getPastEventsCount(): Promise<number> {
+  const query = groq`count(*[_type == "event" && isUpcoming != true])`;
+  return client.fetch(query, {}, { next: { tags: ['event'] } });
+}

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 type LoadMoreProps<T> = {
   initialItems: T[];
+  totalItems: number;
   fetchNextPage: (page: number) => Promise<T[]>;
   renderItem: (item: T) => React.ReactNode;
   itemsPerPage: number;
@@ -12,28 +13,26 @@ type LoadMoreProps<T> = {
 
 export default function LoadMore<T extends { _id: string }>({
   initialItems,
+  totalItems,
   fetchNextPage,
   renderItem,
   itemsPerPage,
 }: LoadMoreProps<T>) {
   const [items, setItems] = useState(initialItems);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialItems.length >= itemsPerPage);
   const [isLoading, setIsLoading] = useState(false);
 
   const loadMoreItems = async () => {
     setIsLoading(true);
-    const nextPage = page + 1;
-    const newItems = await fetchNextPage(nextPage);
+    const newItems = await fetchNextPage(page);
     if (newItems.length > 0) {
       setItems((prevItems) => [...prevItems, ...newItems]);
-      setPage(nextPage);
-      setHasMore(newItems.length === itemsPerPage);
-    } else {
-      setHasMore(false);
+      setPage((prevPage) => prevPage + 1);
     }
     setIsLoading(false);
   };
+
+  const hasMoreItems = items.length < totalItems;
 
   return (
     <>
@@ -53,7 +52,7 @@ export default function LoadMore<T extends { _id: string }>({
         </AnimatePresence>
       </div>
 
-      {hasMore && (
+      {hasMoreItems && (
         <div className="mt-12 text-center">
           <button
             onClick={loadMoreItems}
