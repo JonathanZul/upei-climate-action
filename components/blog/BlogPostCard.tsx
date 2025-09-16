@@ -31,13 +31,20 @@ export default function BlogPostCard({
   return (
     <article className="flex flex-col gap-6 border-b-2 border-accent-bg pb-8 sm:flex-row">
       <div className="w-full sm:w-1/3">
-        <Image
-          src={urlFor(image).width(600).height(400).quality(70).url()}
-          alt={`Image for ${title}`}
-          width={300}
-          height={200}
-          className="h-full w-full rounded-md object-cover"
-        />
+        <Link 
+          href={postUrl}
+          className='block overflow-hidden rounded-md'
+        >
+          <div className='aspect-square relative'>
+            <Image
+              src={urlFor(image).width(600).height(600).quality(70).url()}
+              alt={`Image for ${title}`}
+              fill
+              sizes='(max-width: 640px) 100vw, 33vw'
+              className="object-contain transition-transform duration-300 hover:scale-105"
+            />
+          </div>
+        </Link>
       </div>
       <div className="flex w-full flex-col sm:w-2/3">
         {/* Tag Rendering Logic */}

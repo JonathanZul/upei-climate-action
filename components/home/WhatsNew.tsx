@@ -1,19 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { urlFor } from '@/lib/sanity';
-
-// Define the shape of a post for this component
-type Post = {
-  _id: string;
-  title: string;
-  date: string;
-  image?: object;
-  excerpt: string;
-  slug: string;
-};
+import { type FormattedPost } from '@/app/blog/shared';
 
 type WhatsNewProps = {
-  posts: Post[];
+  posts: FormattedPost[];
 };
 
 export default function WhatsNew({ posts }: WhatsNewProps) {
@@ -31,17 +22,19 @@ export default function WhatsNew({ posts }: WhatsNewProps) {
           {featuredPost && (
             <div className="flex flex-col gap-3">
               <Link href={`/blog/${featuredPost.slug}`}>
-                <Image
-                  src={
-                    featuredPost.image
-                      ? urlFor(featuredPost.image).width(1000).height(600).quality(80).url()
-                      : '/placeholder-image.jpg'
-                  }
-                  alt={`Image for ${featuredPost.title}`}
-                  width={500}
-                  height={300}
-                  className="h-auto w-full rounded-md object-cover transition-transform duration-300 hover:scale-105"
-                />
+                <div className='aspect-[3/2] relative'>
+                  <Image
+                    src={
+                      featuredPost.image
+                        ? urlFor(featuredPost.image).width(1000).height(600).quality(80).url()
+                        : '/placeholder-image.jpg'
+                    }
+                    alt={`Image for ${featuredPost.title}`}
+                    fill
+                    sizes='(max-width: 640px) 100vw, 33vw'
+                    className="object-contain transition-transform duration-300 hover:scale-105"
+                  />
+                </div>
               </Link>
               <p className="font-nunito text-sm font-semibold uppercase tracking-wider text-secondary">
                 {featuredPost.date}
@@ -84,3 +77,4 @@ export default function WhatsNew({ posts }: WhatsNewProps) {
     </section>
   );
 }
+
