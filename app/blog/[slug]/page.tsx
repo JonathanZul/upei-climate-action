@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { urlFor } from '@/lib/sanity';
+import SanityImage from '@/components/ui/SanityImage';
 
 // Define the shape of a single post
 interface Post {
@@ -24,23 +25,66 @@ async function getPost(slug: string): Promise<Post | null> {
     publishedAt,
     "image": mainImage,
     excerpt,
-    body
+    body[]{
+      ..., // Keep all existing properties of the block
+      _type == "customImage" => {
+        "asset": asset-> // Expand the asset reference to get full image data
+      }
+    }
   }`;
-  return client.fetch(query, { slug });
+  return client.fetch(query, { slug }, { next: { tags: ['post', slug] } });
 }
 
 // Create the component to style the rich text
-const ptComponents = {
+const ptComponents: PortableTextComponents = {
   types: {
-    // You can add custom components here if you extend the schema
+    // This is the renderer for our 'customImage' object
+    // This is the renderer for our 'customImage' object
+    customImage: ({ value }) => {
+      const src = urlFor(value)?.width(900)?.height(600)?.auto('format')?.url();
+      const alt = value.alt || 'Blog post image';
+      return (
+        <figure className="my-6">
+          {src && (
+            <Image
+              src={src}
+              alt={alt}
+              width={900}
+              height={600}
+              className="w-full rounded-lg object-cover"
+            />
+          )}
+          {value.caption && (
+            <figcaption className="mt-2 text-center text-sm text-gray-600">
+              {value.caption}
+            </figcaption>
+          )}
+        </figure>
+      );
+    },
+    code: ({ value }) => {
+      // Basic styling for a code block. For syntax highlighting, a library like 'react-syntax-highlighter' would be needed.
+      return (
+        <pre className="my-6 overflow-x-auto rounded-lg bg-gray-800 p-4">
+          <code className="text-sm text-white">{value.code}</code>
+        </pre>
+      );
+    },
   },
   block: {
-    h2: ({ children }: { children?: React.ReactNode }) => <h2 className="mb-4 mt-8 font-montserrat text-3xl font-bold">{children}</h2>,
-    h3: ({ children }: { children?: React.ReactNode }) => <h3 className="mb-4 mt-6 font-montserrat text-2xl font-bold">{children}</h3>,
-    blockquote: ({ children }: { children?: React.ReactNode }) => <blockquote className="border-l-4 border-primary pl-4 italic my-6">{children}</blockquote>,
+    h2: ({ children }) => <h2 className="mb-4 mt-8 font-montserrat text-3xl font-bold">{children}</h2>,
+    h3: ({ children }) => <h3 className="mb-4 mt-6 font-montserrat text-2xl font-bold">{children}</h3>,
+    blockquote: ({ children }) => <blockquote className="border-l-4 border-primary pl-4 italic my-6">{children}</blockquote>,
   },
   marks: {
-    // Can add custom marks here
+    link: ({ children, value }) => {
+      const rel = !value.href.startsWith('/') ? 'noreferrer noopener' : undefined;
+      return (
+        <a href={value.href} target="_blank" rel={rel} className="text-blue-500 hover:underline">
+          {children}
+        </a>
+      );
+    },
   },
 };
 
@@ -75,7 +119,6 @@ export default async function PostPage({ params }: Props) {
   return (
     <article className="bg-base-bg py-16 sm:py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
-        {/* Header */}
         <header className="mb-12 border-b-2 border-accent-bg pb-8">
           <h1 className="font-montserrat text-4xl font-bold text-tertiary sm:text-5xl">{post.title}</h1>
           <div className="mt-4 flex items-center space-x-2 text-sm text-tertiary">
@@ -85,17 +128,18 @@ export default async function PostPage({ params }: Props) {
           </div>
         </header>
 
-        {/* Main Image */}
-        <Image
-          src={urlFor(post.image).width(800).height(450).quality(80).url()}
-          alt={`Main image for ${post.title}`}
-          width={800}
-          height={450}
-          className="mb-12 h-auto w-full rounded-md object-cover"
-          priority
-        />
-
-        {/* Body Content */}
+        {post.image && (
+          <SanityImage
+            image={post.image}
+            alt={`Main image for ${post.title}`}
+            width={900}
+            height={600}
+            className="mb-12 h-auto w-full rounded-lg object-cover"
+            priority
+          />
+        )}
+        
+        {/* --- 2. RENDER THE BODY WITH THE CUSTOM COMPONENTS --- */}
         <div className="prose prose-lg max-w-none font-nunito text-tertiary">
           <PortableText value={post.body} components={ptComponents} />
         </div>
