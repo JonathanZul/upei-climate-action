@@ -2,11 +2,11 @@ import PageHero from '@/components/ui/PageHero';
 import BlogActions from '@/components/blog/BlogActions';
 import BlogPostList from '@/components/blog/BlogPostList';
 import { getPosts, getTags, getPostsCount } from './page.server';
-import { Post, FormattedPost } from './shared';
+import { Post, FormattedPost, Tag } from './shared';
 
 const transformPost = (post: Post, activeTagSlug?: string): FormattedPost => {
   const allTags = post.tags || [];
-  let primaryTag = undefined;
+  let primaryTag: Tag | undefined = undefined;
   let sortedTags = allTags;
 
   if (activeTagSlug) {
@@ -38,20 +38,20 @@ function formatDate(dateString: string): string {
 }
 
 export default async function BlogPage({ searchParams }: { searchParams: { tag?: string; search?: string } }) {
-  const { tag, search } = searchParams;
   const [initialPostsData, tags, postsCount] = await Promise.all([
-    getPosts({ tag, search, page: 0 }),
+    getPosts({ tag: searchParams.tag, search: searchParams.search, page: 0 }),
     getTags(),
-    getPostsCount({ tag, search }),
+    getPostsCount({ tag: searchParams.tag, search: searchParams.search }),
   ]);
-  const formattedInitialPosts = initialPostsData.map(p => transformPost(p, tag));
 
-  // --- THE FIX IS HERE ---
+  const formattedInitialPosts = initialPostsData.map(p => transformPost(p, searchParams.tag));
+
   // Define the server action, capturing the current search/filter params
-  async function fetchMorePosts(page: number) {
+  async function fetchMorePosts(page: number, params: { tag?: string; search?: string }) {
     "use server";
-    const newPosts = await getPosts({ tag, search, page });
-    return newPosts.map(p => transformPost(p, tag));
+    const newPosts = await getPosts({ ...params, page });
+    // Pass the active tag from the client to ensure correct highlighting on "Load More"
+    return newPosts.map(p => transformPost(p, params.tag));
   }
 
   return (
