@@ -32,7 +32,8 @@ Promise<Post[]> {
     publishedAt,
     "image": mainImage,
     excerpt, 
-    "slug": slug.current
+    "slug": slug.current,
+    "tags": tags[]->{ _id, title, "slug": slug.current }
   }`;
 
   return client.fetch(query, params, { next: { tags: ['post'] } });

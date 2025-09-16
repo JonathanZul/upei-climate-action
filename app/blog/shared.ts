@@ -14,6 +14,7 @@ export interface Post {
   image: object;
   excerpt: string;
   slug: string;
+  tags: Tag[];
 }
 
 export interface FormattedPost {
@@ -24,5 +25,6 @@ export interface FormattedPost {
   image?: object | null;
   excerpt: string;
   slug: string;
-  tag: string;
+  tags: Tag[];
+  primaryTag?: Tag;
 }
