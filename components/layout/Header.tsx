@@ -18,7 +18,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="sticky top-4 z-50 w-full">
       <nav
         className={`relative mx-4 mt-4 ${
           isMenuOpen ? 'rounded-t-lg' : 'rounded-lg'
