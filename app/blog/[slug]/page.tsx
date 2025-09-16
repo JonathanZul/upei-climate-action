@@ -41,7 +41,13 @@ const ptComponents: PortableTextComponents = {
     // This is the renderer for our 'customImage' object
     // This is the renderer for our 'customImage' object
     customImage: ({ value }) => {
-      const src = urlFor(value)?.width(900)?.height(600)?.auto('format')?.url();
+      const asset = value.asset;
+      if (!asset) return null;
+
+      const dimensions = asset.metadata?.dimensions;
+      const [width, height] = dimensions ? [dimensions.width, dimensions.height] : [800, 600];
+
+      const src = urlFor(value).quality(80).auto('format')?.url();
       const alt = value.alt || 'Blog post image';
       return (
         <figure className="my-6">
@@ -49,9 +55,9 @@ const ptComponents: PortableTextComponents = {
             <Image
               src={src}
               alt={alt}
-              width={900}
-              height={600}
-              className="w-full rounded-lg object-cover"
+              width={width}
+              height={height}
+              className="w-full h-auto rounded-lg"
             />
           )}
           {value.caption && (
