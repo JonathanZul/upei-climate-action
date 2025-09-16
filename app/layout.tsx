@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import BackToTop from "@/components/ui/BackToTop";
 import NewsletterModal from "@/components/ui/NewsletterModal";
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -48,6 +49,8 @@ export default function RootLayout({
         <BackToTop />
         <NewsletterModal />
       </body>
+      <Analytics />
+      <SpeedInsights />
     </html>
   );
 }
