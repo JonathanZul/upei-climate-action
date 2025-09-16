@@ -14,7 +14,7 @@ export async function getUpcomingEvents(): Promise<Event[]> {
     "image": image,
     isUpcoming
   }`;
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { tags: ['event'] } });
 }
 
 export async function getPastEvents(page: number): Promise<Event[]> {
@@ -30,5 +30,5 @@ export async function getPastEvents(page: number): Promise<Event[]> {
     "image": image,
     isUpcoming
   }`;
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { tags: ['event'] } });
 }

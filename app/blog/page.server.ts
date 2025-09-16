@@ -35,7 +35,7 @@ Promise<Post[]> {
     "slug": slug.current
   }`;
 
-  return client.fetch(query, params);
+  return client.fetch(query, params, { next: { tags: ['post'] } });
 }
 
 // Fetch all tags for the sidebar
@@ -43,5 +43,5 @@ export async function getTags(): Promise<Tag[]> {
   const query = groq`*[_type == "tag"] | order(title asc) {
     _id, title, "slug": slug.current
   }`;
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { tags: ['tag', 'post'] } }); // Tags are part of the post page
 }
