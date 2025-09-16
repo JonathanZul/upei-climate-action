@@ -1,7 +1,7 @@
 import PageHero from '@/components/ui/PageHero';
 import BlogActions from '@/components/blog/BlogActions';
 import BlogPostList from '@/components/blog/BlogPostList';
-import { getPosts, getTags } from './page.server';
+import { getPosts, getTags, getPostsCount } from './page.server';
 import { Post } from './shared';
 
 const transformPost = (post: Post) => ({ ...post, date: formatDate(post.publishedAt), tag: 'Environment' });
@@ -17,9 +17,10 @@ function formatDate(dateString: string): string {
 
 export default async function BlogPage({ searchParams }: { searchParams: { tag?: string; search?: string } }) {
   const { tag, search } = searchParams;
-  const [initialPostsData, tags] = await Promise.all([
+  const [initialPostsData, tags, postsCount] = await Promise.all([
     getPosts({ tag, search, page: 0 }),
     getTags(),
+    getPostsCount({ tag, search }),
   ]);
   const formattedInitialPosts = initialPostsData.map(transformPost);
 
@@ -43,6 +44,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { tag?:
                 // Pass the action down as a prop
                 <BlogPostList 
                   initialItems={formattedInitialPosts}
+                  totalItems={postsCount}
                   fetchNextPage={fetchMorePosts}
                 />
               ) : (

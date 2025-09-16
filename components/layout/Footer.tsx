@@ -54,6 +54,7 @@ export default function Footer() {
               <Link href="/" className="text-primary hover:underline">Home</Link>
               <Link href="/about" className="text-primary hover:underline">About us</Link>
               <Link href="/events" className="text-primary hover:underline">Events</Link>
+              <Link href="/blog" className="text-primary hover:underline">Blog</Link>
               <Link href="/contact" className="text-primary hover:underline">Contact us</Link>
             </div>
           </div>

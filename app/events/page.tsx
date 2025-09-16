@@ -1,8 +1,7 @@
-// app/events/page.tsx
 import PageHero from '@/components/ui/PageHero';
 import EventListing from '@/components/events/EventListing';
 import PastEventsList from '@/components/events/PastEventsList';
-import { getUpcomingEvents, getPastEvents } from './page.server';
+import { getUpcomingEvents, getPastEvents, getPastEventsCount } from './page.server';
 import { Event } from './shared';
 
 const transformEvent = (event: Event) => {
@@ -17,15 +16,15 @@ const transformEvent = (event: Event) => {
 };
 
 export default async function EventsPage() {
-  const [upcomingEventsData, initialPastEventsData] = await Promise.all([
+  const [upcomingEventsData, initialPastEventsData, pastEventsCount] = await Promise.all([
     getUpcomingEvents(),
     getPastEvents(0),
+    getPastEventsCount(),
   ]);
 
   const formattedUpcomingEvents = upcomingEventsData.map(transformEvent);
   const formattedInitialPastEvents = initialPastEventsData.map(transformEvent);
 
-  // --- THE FIX IS HERE ---
   // Define the server action directly inside the Server Component
   async function fetchMorePastEvents(page: number) {
     "use server";
@@ -46,6 +45,7 @@ export default async function EventsPage() {
             {/* Pass the action down as a prop */}
             <PastEventsList 
               initialItems={formattedInitialPastEvents}
+              totalItems={pastEventsCount}
               fetchNextPage={fetchMorePastEvents} 
             />
           </div>

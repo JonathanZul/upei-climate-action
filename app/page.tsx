@@ -19,7 +19,7 @@ async function getLatestPosts() {
     excerpt,
     "slug": slug.current,
   }`;
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { tags: ['post'] } });
 }
 
 // Fetch the 3 nearest upcoming events for the UpcomingEvents section
@@ -33,7 +33,7 @@ async function getUpcomingEvents() {
     "image": image,
     isUpcoming
   }`;
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { tags: ['event'] } });
 }
 
 // Helper to format dates

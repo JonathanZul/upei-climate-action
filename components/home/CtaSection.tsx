@@ -5,10 +5,10 @@ import Link from 'next/link';
 export default function CtaSection() {
   return (
     <section className="bg-tertiary text-white-text">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="flex flex-col lg:flex-row lg:items-center">
           {/* Left Column: Text Content */}
-          <div className="flex flex-1 flex-col items-start justify-center gap-6 px-6 py-16 text-left lg:px-12">
+          <div className="flex flex-1 flex-col items-start justify-center gap-8 lg:gap-12 px-6 py-16 text-left lg:px-12">
             <p className="font-poppins text-sm font-medium uppercase tracking-wider">
               Want to make a difference?
             </p>
@@ -16,9 +16,11 @@ export default function CtaSection() {
               Contribute to a sustainable tomorrow
             </h2>
             <p className="font-nunito text-lg">
-              Lorem ipsum dolor sit amet consectetur. Viverra molestie mauris
-              feugiat risus in sit tincidunt mi. Mauris integer mauris arcu
-              faucibus interdum vivamus.
+               Joining our club is the easiest way to connect with
+               other students who care about the environment. We 
+               organize hands-on events, workshops, and campaigns 
+               that make a real, positive impact right here on 
+               campus. Everyone is welcome, no experience needed!
             </p>
             <Link
               href="/contact"
@@ -35,7 +37,7 @@ export default function CtaSection() {
               alt="Club members participating in an event"
               width={600}
               height={600}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover rounded-lg shadow-lg"
             />
           </div>
         </div>
