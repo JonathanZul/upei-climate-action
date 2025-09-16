@@ -86,6 +86,16 @@ const ptComponents: PortableTextComponents = {
       );
     },
   },
+  list: {
+    // Ex. 1: customizing common list types
+    bullet: ({ children }) => <ul className="list-disc pl-6 my-4 space-y-2">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal pl-6 my-4 space-y-2">{children}</ol>,
+  },
+  listItem: {
+    // Ex. 1: customizing common list item types
+    bullet: ({ children }) => <li>{children}</li>,
+    number: ({ children }) => <li>{children}</li>,
+  },
 };
 
 // Generate dynamic metadata for SEO
