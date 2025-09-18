@@ -11,7 +11,7 @@ const transformEvent = (event: Event) => {
     description: event.description || '',
     month: eventDate.toLocaleString('default', { month: 'short' }),
     day: eventDate.getDate().toString(),
-    time: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    time: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'America/Halifax', timeZoneName: 'short' }),
   };
 };
 
