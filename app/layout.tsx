@@ -9,20 +9,20 @@ import NewsletterModal from "@/components/ui/NewsletterModal";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
-const montserrat = Montserrat({
+export const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
   display: "swap",
 });
 
-const poppins = Poppins({
+export const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
   display: "swap",
 });
 
-const nunito = Nunito({
+export const nunito = Nunito({
   subsets: ["latin"],
   variable: "--font-nunito",
   display: "swap",
