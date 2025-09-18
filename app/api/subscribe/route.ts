@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 
-const apiKey = process.env.MAILCHIMP_API_KEY;
-const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
-const serverPrefix = process.env.MAILCHIMP_SERVER_PREFIX;
+const apiKey = process.env.BEEHIIV_API_KEY;
+const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
 
-if (!apiKey || !audienceId || !serverPrefix) {
-  throw new Error("Mailchimp environment variables are not set. Please configure MAILCHIMP_API_KEY, MAILCHIMP_AUDIENCE_ID, and MAILCHIMP_SERVER_PREFIX.");
+if (!apiKey || !publicationId) {
+  console.error("Beehiiv environment variables are not set.");
 }
 
 export async function POST(request: Request) {
@@ -15,42 +14,39 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Email is required' }, { status: 400 });
   }
 
-  if (!apiKey || !audienceId || !serverPrefix) {
-    return NextResponse.json({ error: 'Mailchimp configuration is missing.' }, { status: 500 });
+  if (!apiKey || !publicationId) {
+    return NextResponse.json({ error: 'Newsletter service is not configured.' }, { status: 500 });
   }
-
-  const data = {
-    email_address: email,
-    status: 'subscribed',
-  };
 
   try {
     const response = await fetch(
-      `https://${serverPrefix}.api.mailchimp.com/3.0/lists/${audienceId}/members`,
+      `https://api.beehiiv.com/v2/publications/${publicationId}/subscriptions`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `apikey ${apiKey}`,
+          Authorization: `Bearer ${apiKey}`, // Beehiiv uses a Bearer token
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          email: email,
+          send_welcome_email: true, // This tells Beehiiv to send your welcome email!
+        }),
       }
     );
-    
+
+    const result = await response.json();
+
     if (!response.ok) {
-      const result = await response.json();
-      
-      // Check if the error title is "Member Exists"
-      if (result.title === "Member Exists") {
+      // Beehiiv provides a clear error message for existing subscribers
+      if (result.errors && result.errors[0]?.message === 'Subscription already exists.') {
         return NextResponse.json({ error: 'This email is already subscribed!' }, { status: 400 });
       }
-      
+
       // For any other error, return a generic message
       return NextResponse.json({ error: 'An error occurred. Please try again later.' }, { status: response.status });
     }
 
-    const result = await response.json();
-    return NextResponse.json({ success: true, ...result });
+    return NextResponse.json({ success: true, data: result.data });
 
   } catch (error) {
     console.error(error);
