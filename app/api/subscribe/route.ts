@@ -4,7 +4,7 @@ const apiKey = process.env.BEEHIIV_API_KEY;
 const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
 
 if (!apiKey || !publicationId) {
-  console.error("Beehiiv environment variables are not set.");
+  throw new Error("Beehiiv environment variables are not set.");
 }
 
 export async function POST(request: Request) {
