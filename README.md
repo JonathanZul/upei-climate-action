@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌱 UPEI Climate Action Association Website
+
+This repository contains the frontend source code for the official website of the Climate Action Association at UPEI, built with Next.js and Tailwind CSS.
+
+**Live Website:** [https://upeiclimateaction.ca](https://upeiclimateaction.ca)
+
+---
+
+## Tech Stack
+
+-   **Framework:** Next.js (App Router)
+-   **Styling:** Tailwind CSS
+-   **CMS:** Sanity.io (Headless)
+-   **Deployment:** Vercel
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+-   Node.js (v18 or later)
+-   npm
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/JonathanZul/upei-climate-action.git
+cd upei-climate-action
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Set Up Environment Variables
+
+Create a file named `.env.local` in the project root and add the necessary environment variables.
+
+```# .env.local
+
+# Sanity.io Credentials
+NEXT_PUBLIC_SANITY_PROJECT_ID="YOUR_SANITY_PROJECT_ID"
+NEXT_PUBLIC_SANITY_DATASET="production"
+
+# Sanity Webhook Secret for On-Demand Revalidation
+SANITY_WEBHOOK_SECRET="YOUR_WEBHOOK_SECRET"
+
+# Resend API Key (Contact Form)
+RESEND_API_KEY="YOUR_RESEND_API_KEY"
+CONTACT_FORM_EMAIL_TO="your-club-email@example.com"
+
+# Mailchimp Credentials (Newsletter) (DEPRECATED)
+MAILCHIMP_API_KEY="YOUR_MAILCHIMP_API_KEY"
+MAILCHIMP_AUDIENCE_ID="YOUR_AUDIENCE_ID"
+MAILCHIMP_SERVER_PREFIX="YOUR_MAILCHIMP_SERVER_PREFIX" # e.g., us14
+
+# BeeHiiv Credentials (Replaces Mailchimp for Newsletter)
+BEEHIIV_API_KEY="OaiV2BX1505QF96UoCNu7SI52vwcDgIlCiNP0ln8PIgmypiXfdUsUfTJdTRzsvBn"
+BEEHIIV_PUBLICATION_ID="pub_446df571-9daa-422a-9973-29c064860f1a"
+```
+
+### 4. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
+This project is deployed on [Vercel](https://vercel.com). The `main` branch is automatically deployed to production.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To deploy changes, create a pull request from a feature branch into `main`. Once merged, Vercel will trigger a new build and deployment.
