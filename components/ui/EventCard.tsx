@@ -1,8 +1,5 @@
-import Image from 'next/image';
-import { urlFor } from '@/lib/sanity';
 import SanityImage from './SanityImage';
 import {type FormattedEvent} from '@/app/events/shared'
-import test from 'node:test';
 
 type EventCardProps = {
   event: FormattedEvent;
