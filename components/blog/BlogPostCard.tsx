@@ -48,7 +48,7 @@ export default function BlogPostCard({
       </div>
       <div className="flex w-full flex-col sm:w-2/3">
         {/* Tag Rendering Logic */}
-        <div className="relative mb-2 flex h-6 flex-wrap items-center gap-2 overflow-hidden">
+        <div className="relative mb-2 flex h-8 flex-wrap items-center gap-2 overflow-hidden">
           {tags?.map((tag) => {
             const isPrimary = tag._id === primaryTag?._id;
             return (
