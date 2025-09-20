@@ -15,7 +15,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
         </h2>
         <div className="mt-12 flex flex-col gap-12">
           {events.map((event) => (
-            <EventCard key={event._id} {...event} image={event.image ?? {}} />
+            <EventCard key={event._id} event={event} />
           ))}
         </div>
       </div>
