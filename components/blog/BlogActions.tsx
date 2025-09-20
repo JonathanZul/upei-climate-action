@@ -107,6 +107,21 @@ export default function BlogActions({ tags }: BlogActionsProps) {
           </div>
         )}
       </div>
+
+      {/* Contribution Prompt */}
+      <div className="pt-4 text-center">
+        <p className="text-sm text-tertiary">
+          Want to contribute to our blog?
+          <span className="block">
+            <a 
+              href="mailto:caas@upeisu.ca?subject=Blog Post Submission" 
+              className="font-semibold text-primary hover:underline ml-1"
+            >
+              Email us your submission!
+            </a>
+          </span>
+        </p>
+      </div>
     </div>
   );
 }
