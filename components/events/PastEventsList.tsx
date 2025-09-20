@@ -1,4 +1,3 @@
-// components/events/PastEventsList.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -6,7 +5,6 @@ import LoadMore from '@/components/ui/LoadMore';
 import EventCard from '@/components/ui/EventCard';
 import { PAST_EVENTS_PER_PAGE, type FormattedEvent } from '@/app/events/shared';
 
-// Update the props to accept the server action
 type PastEventsListProps = {
   initialItems: FormattedEvent[];
   fetchNextPage: (page: number) => Promise<FormattedEvent[]>;
@@ -40,7 +38,7 @@ export default function PastEventsList({ initialItems, fetchNextPage, totalItems
   return (
     <LoadMore
       items={items}
-      renderItem={(event) => <EventCard {...event} image={event.image ?? {}} white_text={true} />}
+      renderItem={(event) => <EventCard {...event} event={event} white_text={true} />}
       onLoadMore={loadMoreItems}
       isLoading={isLoading}
       hasMore={hasMoreItems}

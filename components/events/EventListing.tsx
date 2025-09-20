@@ -1,7 +1,6 @@
 import EventCard from '../ui/EventCard';
 import { type FormattedEvent } from '@/app/events/shared';
 
-// The component accepts the RAW data from Sanity
 type EventListingProps = {
     title: string;
     events: FormattedEvent[]; // It receives an array of FormattedEvent
@@ -15,7 +14,7 @@ export default function EventListing({ title, events, dark_palette }: EventListi
           <EventCard
             key={event._id}
             {...event}
-            image={event.image ?? {}}
+            event={event}
             white_text={dark_palette}
           />
         ))}
