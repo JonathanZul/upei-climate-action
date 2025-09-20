@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FaSearch, FaChevronDown } from 'react-icons/fa';
+import { HiOutlinePencilSquare } from 'react-icons/hi2';
 import Link from 'next/link';
 
 // Define the shape of a tag object
@@ -109,18 +110,18 @@ export default function BlogActions({ tags }: BlogActionsProps) {
       </div>
 
       {/* Contribution Prompt */}
-      <div className="pt-4 text-center">
-        <p className="text-sm text-tertiary">
-          Want to contribute to our blog?
-          <span className="block">
-            <a 
-              href="mailto:caas@upeisu.ca?subject=Blog Post Submission" 
-              className="font-semibold text-primary hover:underline ml-1"
-            >
-              Email us your submission!
-            </a>
-          </span>
+      <div className="border-t border-gray-200 pt-6 flex flex-col items-center text-center">
+        <p className="text-sm text-tertiary mb-3">
+          Want to contribute to our blog? 
+          <br />
         </p>
+        <a 
+          href="mailto:caas@upeisu.ca?subject=Blog Post Submission" 
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-center font-semibold text-white-text shadow-sm transition-transform hover:scale-105"
+        >
+          <HiOutlinePencilSquare className="h-5 w-5" />
+          <span>Submit a Post</span>
+        </a>
       </div>
     </div>
   );
