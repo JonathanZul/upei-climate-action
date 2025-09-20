@@ -4,13 +4,20 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import NewsletterForm from './NewsletterForm';
 import { HiXMark } from "react-icons/hi2";
+import { usePathname } from 'next/navigation';
 
 const NEWSLETTER_POPUP_KEY = 'newsletterPopupDismissed';
 
 export default function NewsletterModal() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const pathname = usePathname();
+
   useEffect(() => {
+    if (pathname === '/subscribe') {
+      return; // Do nothing if we're on the dedicated subscribe page
+    }
+
     // Check if the user has dismissed the popup before
     const dismissed = localStorage.getItem(NEWSLETTER_POPUP_KEY);
     if (!dismissed) {
@@ -21,7 +28,7 @@ export default function NewsletterModal() {
 
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [pathname]);
 
   const handleClose = () => {
     // Remember the user's choice
@@ -29,7 +36,7 @@ export default function NewsletterModal() {
     setIsOpen(false);
   };
 
-  if (!isOpen) {
+  if (!isOpen || pathname === '/subscribe') {
     return null;
   }
 
