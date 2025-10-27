@@ -20,6 +20,18 @@
   --font-poppins: var(--font-poppins);
 }
 
+/* For Webkit-based browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
