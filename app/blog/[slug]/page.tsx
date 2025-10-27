@@ -81,7 +81,13 @@ const ptComponents: PortableTextComponents = {
     normal: ({ children }) => {
       // If the block has no children, it's an empty line.
       // Render a paragraph with a non-breaking space to give it height.
-      if (children && (children as any[]).length === 1 && (children as any[])[0] === '') {
+      if (
+        children === '' ||
+        (Array.isArray(children) &&
+          children.length === 1 &&
+          typeof children[0] === 'string' &&
+          children[0] === '')
+      ) {
         return <p>&nbsp;</p>;
       }
       // Otherwise, render a normal paragraph with its content.
