@@ -39,9 +39,6 @@ async function getUpcomingEvents() {
   return client.fetch(query, {}, { next: { tags: ['event'] } });
 }
 
-// Helper to format dates
-const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
 export default async function Home() {
   // Fetch both posts and events in parallel
   const [posts, events] = await Promise.all([

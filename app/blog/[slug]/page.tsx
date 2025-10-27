@@ -78,6 +78,21 @@ const ptComponents: PortableTextComponents = {
     },
   },
   block: {
+    normal: ({ children }) => {
+      // If the block has no children, it's an empty line.
+      // Render a paragraph with a non-breaking space to give it height.
+      if (
+        children === '' ||
+        (Array.isArray(children) &&
+          children.length === 1 &&
+          typeof children[0] === 'string' &&
+          children[0] === '')
+      ) {
+        return <p>&nbsp;</p>;
+      }
+      // Otherwise, render a normal paragraph with its content.
+      return <p className="mb-4">{children}</p>;
+    },
     h2: ({ children }) => <h2 className="mb-4 mt-8 font-montserrat text-3xl font-bold">{children}</h2>,
     h3: ({ children }) => <h3 className="mb-4 mt-6 font-montserrat text-2xl font-bold">{children}</h3>,
     blockquote: ({ children }) => <blockquote className="border-l-4 border-primary pl-4 italic my-6">{children}</blockquote>,
