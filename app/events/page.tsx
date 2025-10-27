@@ -4,7 +4,7 @@ import PastEventsList from '@/components/events/PastEventsList';
 import { getUpcomingEvents, getPastEvents, getPastEventsCount } from './page.server';
 import { Event } from './shared';
 
-const transformEvent = (event: Event) => {
+export const transformEvent = (event: Event) => {
   const eventDate = new Date(event.date);
   return {
     ...event,

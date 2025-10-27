@@ -24,7 +24,7 @@ async function getTeamMembers(): Promise<TeamMember[]> {
     bio,
     "image": image
   }`;
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { tags: ['teamMember'] } });
 }
 
 // Make the page component async and fetch the data
