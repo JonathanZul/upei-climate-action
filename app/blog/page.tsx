@@ -4,7 +4,7 @@ import BlogPostList from '@/components/blog/BlogPostList';
 import { getPosts, getTags, getPostsCount } from './page.server';
 import { Post, FormattedPost, Tag } from './shared';
 
-const transformPost = (post: Post, activeTagSlug?: string): FormattedPost => {
+export const transformPost = (post: Post, activeTagSlug?: string): FormattedPost => {
   const allTags = post.tags || [];
   let primaryTag: Tag | undefined = undefined;
   let sortedTags = allTags;
