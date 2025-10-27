@@ -16,7 +16,7 @@ interface TeamMember {
 
 // Create the data fetching function
 async function getTeamMembers(): Promise<TeamMember[]> {
-  const query = groq`*[_type == "teamMember"] | order(name asc) {
+  const query = groq`*[_type == "teamMember"] | order(order asc, name asc) {
     _id,
     name,
     pronouns,
