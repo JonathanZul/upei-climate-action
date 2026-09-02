@@ -1,7 +1,7 @@
 // components/blog/BlogPostList.tsx
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import LoadMore from '@/components/ui/LoadMore';
 import BlogPostCard from '@/components/blog/BlogPostCard';
@@ -18,12 +18,19 @@ export default function BlogPostList({ initialItems, fetchNextPage, totalItems }
   const [items, setItems] = useState(initialItems);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [syncedItems, setSyncedItems] = useState(initialItems);
   const searchParams = useSearchParams();
-  
-  useEffect(() => {
+
+  // Reset pagination when the server sends a new first page (the filter or search
+  // changed). Done during render rather than in an effect: React applies it before
+  // painting, so there is no frame showing the previous filter's results. This is the
+  // pattern React documents for adjusting state when a prop changes, and it satisfies
+  // react-hooks/set-state-in-effect, which eslint-config-next 16 enables.
+  if (initialItems !== syncedItems) {
+    setSyncedItems(initialItems);
     setItems(initialItems);
-    setPage(1); // Reset the page count
-  }, [initialItems]);
+    setPage(1);
+  }
 
   const loadMoreItems = async () => {
     setIsLoading(true);
