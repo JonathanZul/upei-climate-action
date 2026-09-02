@@ -89,8 +89,22 @@ deploy, no reprint.
 3. Optionally note what it points to in **Internal Label**.
 4. Press **Publish**. The change is live on the next scan; there is no cache to wait out.
 
-**QR Scan Stats** shows how many times the code has been scanned and when it was last
-used. Those numbers are written by the website and cannot be edited by hand.
+**QR Scan Stats** is a dashboard showing:
+
+- total scans, scans today, and scans in the last 7 days
+- a bar chart of the last 30 days, so you can see the spike when posters went up
+- a breakdown **per destination**, so you can compare campaigns — re-pointing the code
+  starts a new row rather than merging into the old total
+- a mobile / tablet / desktop split
+
+These numbers are written by the website and cannot be edited by hand.
+
+Crawlers and chat-app link previews (Slack, WhatsApp, Discord, iMessage) are **not**
+counted — posting the link in a group chat would otherwise add a burst of scans nobody
+made. Days are grouped in Atlantic time, so an evening scan counts toward that evening.
+
+No personal data is recorded: no IP address, no cookies, and nothing that links two scans
+to the same person. Only a date, the destination, and a coarse device type.
 
 If no destination is set — or the document is unpublished, or Sanity is unreachable — the
 QR code sends visitors to the homepage rather than an error page. A printed code never
@@ -101,9 +115,10 @@ dead-ends.
 | Piece | Location |
 | --- | --- |
 | Route handler | `app/qr/route.ts` |
-| Destination sanitizer | `lib/qr.ts` |
-| Scan counter | `lib/sanity.write.ts` |
-| Schemas | `schemas/qrRedirect.ts`, `schemas/qrRedirectStats.ts` (CMS repo) |
+| Destination sanitizer, device + bot classification | `lib/qr.ts` |
+| Scan recorder | `lib/sanity.write.ts` |
+| Schemas | `schemas/qrRedirect.ts`, `schemas/qrRedirectStats.ts`, `schemas/qrScanDay.ts` (CMS repo) |
+| Studio dashboard | `components/QrScanDashboard.tsx` (CMS repo) |
 | Studio nav + singleton locking | `structure.ts`, `sanity.config.ts` (CMS repo) |
 
 The route is `force-dynamic` and sets `Cache-Control: no-store`, and it responds **307**
@@ -112,6 +127,15 @@ printed poster to whichever destination was set first.
 
 Only `http`/`https` URLs and site-relative paths are accepted. Anything else (a
 `javascript:` URI, a protocol-relative `//host`) falls back to the homepage.
+
+Scans are recorded into `qrScanDay` rollup documents, one per `(day, destination)` at a
+deterministic id, so a scan is one `createIfNotExists` + `inc` that Sanity applies
+atomically. Counting happens inside `after()`, so it runs once the redirect has already
+been sent and never adds latency to a scan; failures are logged and swallowed rather than
+breaking a redirect someone is standing at a poster waiting on.
+
+Scan counting requires `SANITY_API_WRITE_TOKEN`. Without it the redirect still works and
+counting silently no-ops.
 
 ---
 
