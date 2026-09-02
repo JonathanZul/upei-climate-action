@@ -120,9 +120,11 @@ const ptComponents: PortableTextComponents = {
 };
 
 // Generate dynamic metadata for SEO
-type Props = { params: { slug: string } };
+// params is a Promise in Next 15+; Next 16 no longer allows synchronous access.
+type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = await getPost(params.slug);
+  const { slug } = await params;
+  const post = await getPost(slug);
   if (!post) {
     return { title: 'Not Found' };
   }
@@ -134,7 +136,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // The main page component
 export default async function PostPage({ params }: Props) {
-  const post = await getPost(params.slug);
+  const { slug } = await params;
+  const post = await getPost(slug);
 
   // Handle case where post is not found
   if (!post) {
