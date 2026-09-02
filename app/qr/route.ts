@@ -2,7 +2,7 @@ import { groq } from "next-sanity";
 import { after, type NextRequest, NextResponse } from "next/server";
 
 import { client } from "@/lib/sanity";
-import { normalizeRedirectTarget } from "@/lib/qr";
+import { isBotUserAgent, normalizeRedirectTarget } from "@/lib/qr";
 import { recordQrScan } from "@/lib/sanity.write";
 
 /**
@@ -63,8 +63,14 @@ export async function GET(request: NextRequest) {
   const configuredTarget = await fetchQrTarget();
   const target = normalizeRedirectTarget(configuredTarget);
 
-  // Runs after the response is flushed, so the visitor never waits on the counter write.
-  after(recordQrScan);
+  // Bots are still redirected — they just aren't counted. Sharing the link in a group
+  // chat makes several unfurlers fetch it at once, which would otherwise show up as a
+  // burst of scans that no person ever made.
+  const userAgent = request.headers.get("user-agent");
+  if (!isBotUserAgent(userAgent)) {
+    // Runs after the response is flushed, so the visitor never waits on the write.
+    after(() => recordQrScan({ target, userAgent }));
+  }
 
   const response = NextResponse.redirect(
     new URL(target, request.nextUrl.origin),

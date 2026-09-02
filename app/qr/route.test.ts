@@ -30,9 +30,21 @@ vi.mock("next/server", async (importOriginal) => {
 
 const { GET } = await import("./route");
 
+/** A realistic phone User-Agent, so requests are counted rather than filtered as bots. */
+const BROWSER_UA =
+  "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1";
+
 /** Minimal stand-in for the parts of NextRequest this route actually reads. */
-function requestFor(url = "http://localhost:3000/qr") {
-  return { nextUrl: new URL(url) } as NextRequest;
+function requestFor(
+  { url = "http://localhost:3000/qr", userAgent = BROWSER_UA } = {} as {
+    url?: string;
+    userAgent?: string | null;
+  },
+) {
+  return {
+    nextUrl: new URL(url),
+    headers: new Headers(userAgent ? { "user-agent": userAgent } : {}),
+  } as NextRequest;
 }
 
 describe("GET /qr", () => {
@@ -93,12 +105,44 @@ describe("GET /qr", () => {
     expect(response.headers.get("x-robots-tag")).toBe("noindex");
   });
 
-  it("records the scan", async () => {
+  it("records the scan with the resolved target and user agent", async () => {
     fetchMock.mockResolvedValue({ target: "https://example.com/" });
 
     await GET(requestFor());
 
     expect(recordQrScanMock).toHaveBeenCalledTimes(1);
+    expect(recordQrScanMock).toHaveBeenCalledWith({
+      target: "https://example.com/",
+      userAgent: BROWSER_UA,
+    });
+  });
+
+  it("records the sanitized target, not the raw CMS value", async () => {
+    fetchMock.mockResolvedValue({ target: "javascript:alert(1)" });
+
+    await GET(requestFor());
+
+    expect(recordQrScanMock).toHaveBeenCalledWith({
+      target: "/",
+      userAgent: BROWSER_UA,
+    });
+  });
+
+  describe("bot filtering", () => {
+    it.each([
+      ["Slack's unfurler", "Slackbot-LinkExpanding 1.0"],
+      ["WhatsApp", "WhatsApp/2.23.20.0"],
+      ["Googlebot", "Mozilla/5.0 (compatible; Googlebot/2.1)"],
+      ["a missing user agent", null],
+    ])("still redirects %s but records nothing", async (_label, userAgent) => {
+      fetchMock.mockResolvedValue({ target: "https://example.com/" });
+
+      const response = await GET(requestFor({ userAgent }));
+
+      expect(response.status).toBe(307);
+      expect(response.headers.get("location")).toBe("https://example.com/");
+      expect(recordQrScanMock).not.toHaveBeenCalled();
+    });
   });
 
   it("records the scan even when the destination falls back", async () => {
@@ -107,5 +151,9 @@ describe("GET /qr", () => {
     await GET(requestFor());
 
     expect(recordQrScanMock).toHaveBeenCalledTimes(1);
+    expect(recordQrScanMock).toHaveBeenCalledWith({
+      target: "/",
+      userAgent: BROWSER_UA,
+    });
   });
 });
