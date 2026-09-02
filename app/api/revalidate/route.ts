@@ -39,12 +39,16 @@ export async function POST(req: NextRequest) {
     }
 
     // Revalidate the cache based on the document type
-    // This uses the tags we added to our fetch calls
-    revalidateTag(body._type);
+    // This uses the tags we added to our fetch calls.
+    //
+    // Next 16 requires a cacheLife profile as the second argument. "max" is the profile
+    // Next's own docs use for on-demand purges; the one-argument form from Next 15 no
+    // longer compiles.
+    revalidateTag(body._type, "max");
 
     // Also revalidate related tags if needed
     if (body._type === "tag") {
-      revalidateTag("post"); // If a tag changes, revalidate posts too
+      revalidateTag("post", "max"); // If a tag changes, revalidate posts too
     }
 
     return NextResponse.json({
