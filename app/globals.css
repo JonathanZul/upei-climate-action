@@ -36,3 +36,50 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
 }
+
+/*
+ * Open/close transition for the team bio dialog.
+ *
+ * Not expressible in Tailwind: a <dialog> toggles `display`, so the fade needs
+ * `@starting-style` for the entry frame and `allow-discrete` so `display` waits for the
+ * exit transition to finish. Scoped to the class so it cannot affect other dialogs.
+ */
+.team-bio-dialog,
+.team-bio-dialog::backdrop {
+  transition:
+    opacity 200ms ease,
+    translate 200ms ease,
+    overlay 200ms ease allow-discrete,
+    display 200ms ease allow-discrete;
+}
+
+.team-bio-dialog:not([open]),
+.team-bio-dialog:not([open])::backdrop {
+  opacity: 0;
+}
+
+.team-bio-dialog:not([open]) {
+  translate: 0 4px;
+}
+
+@starting-style {
+  .team-bio-dialog[open],
+  .team-bio-dialog[open]::backdrop {
+    opacity: 0;
+  }
+
+  .team-bio-dialog[open] {
+    translate: 0 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-bio-dialog,
+  .team-bio-dialog::backdrop {
+    transition: none;
+  }
+
+  .team-bio-dialog:not([open]) {
+    translate: none;
+  }
+}
