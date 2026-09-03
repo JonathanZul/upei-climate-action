@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import { urlFor } from '@/lib/sanity';
+import Image from "next/image";
+import { urlFor } from "@/lib/sanity";
 
 type TeamMemberCardProps = {
   name: string;
@@ -31,7 +31,10 @@ export default function TeamMemberCard({
       <p className="mt-1 font-poppins text-base font-semibold text-white-text">
         {position}
       </p>
-      <p className="mt-2 font-nunito text-sm font-light text-white-text">{bio}</p>
+      <p className="mt-2 font-nunito text-sm text-left font-light text-white-text">
+        {bio}
+      </p>
     </div>
   );
 }
+

@@ -7,6 +7,8 @@ import { groq } from 'next-sanity';
 import { BlogPostCardProps } from '@/components/blog/BlogPostCard';
 import { Post } from './blog/shared';
 import { Event } from './events/shared';
+import { transformPost } from './blog/page';
+import { transformEvent } from './events/page';
 
 // Fetch latest 3 blog posts for the WhatsNew section
 async function getLatestPosts() {
@@ -18,6 +20,7 @@ async function getLatestPosts() {
     "image": mainImage,
     excerpt,
     "slug": slug.current,
+    "tags": tags[]->{ _id, title, "slug": slug.current }
   }`;
   return client.fetch(query, {}, { next: { tags: ['post'] } });
 }
@@ -36,9 +39,6 @@ async function getUpcomingEvents() {
   return client.fetch(query, {}, { next: { tags: ['event'] } });
 }
 
-// Helper to format dates
-const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
 export default async function Home() {
   // Fetch both posts and events in parallel
   const [posts, events] = await Promise.all([
@@ -47,23 +47,10 @@ export default async function Home() {
   ]);
 
   // Transform posts to match BlogPostCardProps
-  const formattedPosts = posts.map((post: Post) => ({
-    ...post,
-    date: formatDate(post.publishedAt),
-    tag: 'Environment', // Hardcoded for now
-  }));
+  const formattedPosts = posts.map((post: Post) => transformPost(post));
 
   // Transform events to match UpcomingEvents props
-  const formattedEvents = events.map((event: Event) => {
-    const eventDate = new Date(event.date);
-    return {
-      ...event,
-      description: event.description || '',
-      month: eventDate.toLocaleString('default', { month: 'short' }),
-      day: eventDate.getDate().toString(),
-      time: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'America/Halifax', timeZoneName: 'short' }),
-    };
-  });
+  const formattedEvents = events.map((event: Event) => transformEvent(event));
 
   return (
     <>

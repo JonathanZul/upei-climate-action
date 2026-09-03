@@ -4,7 +4,7 @@ import BlogPostList from '@/components/blog/BlogPostList';
 import { getPosts, getTags, getPostsCount } from './page.server';
 import { Post, FormattedPost, Tag } from './shared';
 
-const transformPost = (post: Post, activeTagSlug?: string): FormattedPost => {
+export const transformPost = (post: Post, activeTagSlug?: string): FormattedPost => {
   const allTags = post.tags || [];
   let primaryTag: Tag | undefined = undefined;
   let sortedTags = allTags;
@@ -37,14 +37,24 @@ function formatDate(dateString: string): string {
   });
 }
 
-export default async function BlogPage({ searchParams }: { searchParams: { tag?: string; search?: string } }) {
+export default async function BlogPage({
+  searchParams,
+}: {
+  // Next 15 made searchParams a Promise. Next 15 still tolerated synchronous access via
+  // a compatibility shim; Next 16 removed it, and reading it synchronously made this page
+  // look static — which then broke the build, because the client components below call
+  // useSearchParams().
+  searchParams: Promise<{ tag?: string; search?: string }>;
+}) {
+  const { tag, search } = await searchParams;
+
   const [initialPostsData, tags, postsCount] = await Promise.all([
-    getPosts({ tag: searchParams.tag, search: searchParams.search, page: 0 }),
+    getPosts({ tag, search, page: 0 }),
     getTags(),
-    getPostsCount({ tag: searchParams.tag, search: searchParams.search }),
+    getPostsCount({ tag, search }),
   ]);
 
-  const formattedInitialPosts = initialPostsData.map(p => transformPost(p, searchParams.tag));
+  const formattedInitialPosts = initialPostsData.map(p => transformPost(p, tag));
 
   // Define the server action, capturing the current search/filter params
   async function fetchMorePosts(page: number, params: { tag?: string; search?: string }) {
